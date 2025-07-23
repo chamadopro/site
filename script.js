@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const googleFormUrlPartner = "https://docs.google.com/forms/d/e/1FAIpQLSdKuS8NwBwBuTGUJQBqLYOUr6-iK55mQigG_2Pj7GTj955GyA/formResponse";
         
         // IDs CORRETOS E CONFIRMADOS PARA O FORMULÁRIO "PROFISSIONAL PARCEIRO"
+        // Baseado na imagem image_bda32e.png
         const partnerNameEntryId = "entry.1740924083"; 
         const partnerEmailEntryId = "entry.1118182909";     
         const partnerPhoneEntryId = "entry.1593026330";   
@@ -70,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const googleFormUrlClient = "https://docs.google.com/forms/d/e/1FAIpQLSeunpGKPPL_xarc7qfwVv8eaZVP0IdXffuRgW3hzyo2Yc8Afg/formResponse";
         
         // IDs CORRETOS E CONFIRMADOS PARA O FORMULÁRIO "CLIENTE"
+        // Baseado na imagem image_bdf585.png
         const clientNameEntryId = "entry.972365287"; 
         const clientEmailEntryId = "entry.354736504";     
         const clientPhoneEntryId = "entry.245879301";   
