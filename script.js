@@ -13,14 +13,15 @@ function closeModal(modalId) {
 document.addEventListener('DOMContentLoaded', () => {
     // Lidar com o envio do formulário de Parceiro
     const partnerForm = document.getElementById('partner-form');
-    partnerForm.addEventListener('submit', async function(event) { // Adicionado 'async'
-        event.preventDefault();
+    partnerForm.addEventListener('submit', async function(event) {
+        event.preventDefault(); // Impede o envio padrão do formulário
 
         const name = document.getElementById('partner-name').value;
         const email = document.getElementById('partner-email').value;
         const phone = document.getElementById('partner-phone').value;
         const specialty = document.getElementById('partner-specialty').value;
 
+        // URL de submissão do Google Form para Parceiros (CONFIRMADO)
         const googleFormUrlPartner = "https://docs.google.com/forms/d/e/1FAIpQLSdKuS8NwBwBuTGUJQBqLYOUr6-iK55mQigG_2Pj7GTj955GyA/formResponse";
         
         // IDs CORRETOS E CONFIRMADOS PARA O FORMULÁRIO "PROFISSIONAL PARCEIRO"
@@ -58,13 +59,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Lidar com o envio do formulário de Cliente
     const clientForm = document.getElementById('client-form');
-    clientForm.addEventListener('submit', async function(event) { // Adicionado 'async'
-        event.preventDefault();
+    clientForm.addEventListener('submit', async function(event) {
+        event.preventDefault(); // Impede o envio padrão do formulário
 
         const name = document.getElementById('client-name').value;
         const email = document.getElementById('client-email').value;
         const phone = document.getElementById('client-phone').value;
 
+        // URL de submissão do Google Form para Clientes (CONFIRMADO)
         const googleFormUrlClient = "https://docs.google.com/forms/d/e/1FAIpQLSeunpGKPPL_xarc7qfwVv8eaZVP0IdXffuRgW3hzyo2Yc8Afg/formResponse";
         
         // IDs CORRETOS E CONFIRMADOS PARA O FORMULÁRIO "CLIENTE"
