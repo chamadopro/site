@@ -39,13 +39,13 @@ body {
 .hero-section {
     background: linear-gradient(to right, #2ab6cc, #0096d6); /* Gradiente mais suave */
     color: #fff;
-    padding: 30px 20px; /* Reduzido o padding */
+    padding: 15px 20px; /* Reduzido ainda mais o padding */
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 150px; /* Altura mínima ainda menor */
+    min-height: 100px; /* Altura mínima ainda menor */
     position: relative;
     overflow: hidden;
     border-bottom-left-radius: 50px; /* Bordas mais arredondadas */
@@ -69,27 +69,61 @@ body {
     to { transform: rotate(360deg); }
 }
 
-.hero-section .logo {
-    /* Removido width, height, background-color, border-radius, display, align-items, justify-content, box-shadow */
-    z-index: 1;
-    position: absolute; /* Posição absoluta para o logo */
-    top: 20px; /* Distância do topo */
-    left: 20px; /* Distância da esquerda */
+/* Logo */
+.logo {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 0;
+    flex-shrink: 0;
 }
 
-.hero-section .logo img {
-    width: 120px; /* Tamanho da imagem do logo ajustado */
-    height: auto; /* Mantém a proporção */
-    object-fit: contain;
-    display: block; /* Garante que a imagem se comporte como um bloco */
+.logo-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    background: rgba(255,255,255,0.15);
+    border: 2px solid #ffffff;
+    border-radius: 8px;
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+    transition: transform 0.3s ease;
+}
+
+.logo-box:hover {
+    transform: scale(1.05);
+}
+
+.logo-box i {
+    font-size: 24px;
+    color: #ffffff;
+    margin-bottom: 4px;
+}
+
+.logo-box span {
+    font-size: 9px;
+    font-weight: 700;
+    color: #ffffff;
+    text-align: center;
+    line-height: 1;
 }
 
 /* Novo estilo para o conteúdo do hero, para controlar a largura */
 .hero-content {
-    max-width: 900px; /* Largura máxima para o conteúdo do topo - Aumentado */
+    max-width: 1200px; /* Mesma largura do container dos cards */
     margin: 0 auto;
     width: 100%; /* Garante que ocupe a largura disponível dentro do max-width */
-    padding-top: 0; /* Removido padding-top para o logo, já que ele está absoluto */
+    padding: 0 20px; /* Mesmo padding do container */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.hero-content h1 {
+    flex: 1;
+    text-align: center; /* Centralizado */
 }
 
 .hero-section h1 {
@@ -107,6 +141,23 @@ body {
     font-weight: 300;
     z-index: 1;
     opacity: 0.9;
+}
+
+/* Intro Section */
+.intro-section {
+    text-align: center;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border: 2px solid #17a2b8;
+    margin-bottom: 30px;
+}
+
+.intro-text {
+    font-size: 1.2rem;
+    color: #333;
+    font-weight: 400;
+    line-height: 1.6;
+    margin: 0;
+    font-style: italic;
 }
 
 /* Section Styling */
@@ -249,10 +300,17 @@ body {
     margin-top: auto; /* Empurra o botão para o final do formulário */
 }
 
-.btn-submit:hover {
+.btn-submit:hover:not(:disabled) {
     background-color: #218838;
     transform: translateY(-2px); /* Efeito de elevação menor */
     box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+}
+
+.btn-submit:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: 0 2px 8px rgba(108, 117, 125, 0.3);
 }
 
 /* Differentials Section */
@@ -397,6 +455,11 @@ body {
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+.modal-actions .primary-btn {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
 .modal-actions .primary-btn:hover {
     background-color: #138496;
     transform: translateY(-2px);
@@ -405,22 +468,37 @@ body {
 /* Responsividade */
 @media (max-width: 768px) {
     .hero-section {
-        padding: 30px 15px;
-        min-height: 200px; /* Ajuste para telas menores */
+        padding: 20px 15px;
+        min-height: 140px; /* Menor ainda para mobile */
         border-bottom-left-radius: 40px;
         border-bottom-right-radius: 40px;
     }
 
-    .hero-section .logo {
-        width: auto; /* Permite que a imagem defina a largura */
-        height: auto; /* Permite que a imagem defina a altura */
-        top: 15px; /* Ajuste para telas menores */
-        left: 15px; /* Ajuste para telas menores */
+    .hero-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
     }
 
-    .hero-section .logo img {
-        width: 100px; /* Reduz o tamanho do logo em telas menores */
-        height: auto;
+    .hero-content h1 {
+        text-align: center;
+    }
+
+    .logo {
+        justify-content: center;
+    }
+
+    .logo-box {
+        width: 60px;
+        height: 60px;
+    }
+
+    .logo-box i {
+        font-size: 18px;
+    }
+
+    .logo-box span {
+        font-size: 8px;
     }
 
     .hero-section h1 {
@@ -507,22 +585,37 @@ body {
 
 @media (max-width: 480px) {
     .hero-section {
-        padding: 20px 10px;
-        min-height: 180px;
+        padding: 15px 10px;
+        min-height: 120px; /* Bem menor para telas pequenas */
         border-bottom-left-radius: 30px;
         border-bottom-right-radius: 30px;
     }
 
-    .hero-section .logo {
-        width: auto;
-        height: auto;
-        top: 10px; /* Ajuste para telas menores */
-        left: 10px; /* Ajuste para telas menores */
+    .hero-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
     }
 
-    .hero-section .logo img {
-        width: 80px; /* Reduz o tamanho do logo em telas muito pequenas */
-        height: auto;
+    .hero-content h1 {
+        text-align: center;
+    }
+
+    .logo {
+        justify-content: center;
+    }
+
+    .logo-box {
+        width: 50px;
+        height: 50px;
+    }
+
+    .logo-box i {
+        font-size: 16px;
+    }
+
+    .logo-box span {
+        font-size: 7px;
     }
 
     .hero-section h1 {
