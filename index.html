@@ -6,7 +6,7 @@
     <title>ChamadoPro - Em Breve!</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css"> 
 </head>
 <body>
     <header class="hero-section">
@@ -22,41 +22,61 @@
     <main class="container">
         <section class="section differentials-section">
             <h2 class="section-title">Por que escolher o ChamadoPro?</h2>
-            <div class="differentiator-grid">
-                <div class="differentiator-item">
+            <div class="differentials-grid">
+                <div class="differential-item">
                     <i class="fas fa-handshake"></i>
-                    <h3>Conexões Seguras</h3>
-                    <p>Profissionais verificados e clientes autênticos para sua tranquilidade.</p>
+                    <h3>Conexão Confiável</h3>
+                    <p>Encontre profissionais verificados e capacitados, cuidadosamente selecionados para garantir a qualidade e a segurança que você merece em cada serviço.</p>
                 </div>
-                <div class="differentiator-item">
-                    <i class="fas fa-check-circle"></i>
-                    <h3>Qualidade Garantida</h3>
-                    <p>Avaliações e feedback que garantem os melhores serviços.</p>
+                <div class="differential-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Segurança e Transparência</h3>
+                    <p>Conte com um ambiente seguro para suas transações e informações claras em todas as etapas, desde o orçamento até a finalização do serviço, protegendo ambas as partes.</p>
                 </div>
-                <div class="differentiator-item">
-                    <i class="fas fa-dollar-sign"></i>
-                    <h3>Preços Justos</h3>
-                    <p>Transparência e competitividade em todas as negociações.</p>
+                <div class="differential-item">
+                    <i class="fas fa-search"></i>
+                    <h3>Busca Simplificada</h3>
+                    <p>Com nossa interface intuitiva, localizar o profissional ou serviço ideal para sua necessidade é rápido e descomplicado, economizando seu tempo e esforço.</p>
                 </div>
-                <div class="differentiator-item">
-                    <i class="fas fa-mobile-alt"></i>
-                    <h3>Praticidade na Palma da Mão</h3>
-                    <p>Agilidade para encontrar ou oferecer serviços pelo celular ou computador.</p>
+                <div class="differential-item">
+                    <i class="fas fa-headset"></i>
+                    <h3>Suporte Dedicado</h3>
+                    <p>Nossa equipe de suporte está sempre pronta para auxiliar você, oferecendo atendimento ágil e eficiente para resolver qualquer dúvida ou questão, do início ao fim.</p>
+                </div>
+                <div class="differential-item">
+                    <i class="fas fa-star-half-alt"></i>
+                    <h3>Avaliações Reais</h3>
+                    <p>Tome decisões informadas e seguras consultando as avaliações e comentários de outros usuários, garantindo a escolha do profissional mais adequado para seu projeto.</p>
+                </div>
+                <div class="differential-item">
+                    <i class="fas fa-calendar-check"></i>
+                    <h3>Orçamentos com Visita</h3>
+                    <p>Oferecemos a possibilidade de agendar visitas com os profissionais para orçamentos detalhados, com garantias e segurança para ambas as partes envolvidas na negociação.</p>
+                </div>
+                <div class="differential-item">
+                    <i class="fas fa-tools"></i>
+                    <h3>Diversidade de Serviços</h3>
+                    <p>De pequenos reparos domésticos a grandes projetos de reforma, nossa plataforma abrange uma vasta gama de serviços, conectando você ao profissional certo para cada demanda.</p>
                 </div>
             </div>
         </section>
 
-        <div class="form-sections-wrapper">
-            <section class="section section-form-partner">
+        <div class="forms-grid">
+            <section class="section">
                 <h2 class="section-title">Seja um Profissional Parceiro</h2>
-                <p>Amplie sua rede de clientes e transforme sua paixão em sucesso!</p>
+                <p class="form-intro-text" style="text-align: center; margin-bottom: 25px; font-size: 1rem; color: #555;">
+                    Amplie suas oportunidades e alcance novos clientes! Cadastre-se agora para ser um dos primeiros a oferecer seus serviços e conectar-se com uma vasta rede de usuários. Você será avisado no momento em que a plataforma estiver operando em sua região.
+                </p>
+                <div class="form-phrase">
+                    <p>Quero ser Avisado</p>
+                </div>
                 <form id="partner-form"> <div class="form-group">
                         <label for="partner-name">Nome Completo:</label>
-                        <input type="text" id="partner-name" name="name" required placeholder="Seu Nome Completo">
+                        <input type="text" id="partner-name" name="name" required placeholder="Seu nome">
                     </div>
                     <div class="form-group">
                         <label for="partner-email">E-mail:</label>
-                        <input type="email" id="partner-email" name="email" required placeholder="seu.email@example.com">
+                        <input type="email" id="partner-email" name="email" required placeholder="seu.email@exemplo.com">
                     </div>
                     <div class="form-group">
                         <label for="partner-phone">Telefone (com DDD):</label>
@@ -64,18 +84,23 @@
                     </div>
                     <div class="form-group">
                         <label for="partner-specialty">Sua Especialidade Principal:</label>
-                        <input type="text" id="partner-specialty" name="specialty" required placeholder="Ex: Eletricista, Encanador, Diarista">
+                        <input type="text" id="partner-specialty" name="specialty" required placeholder="Ex: Eletricista, Encanador, Designer">
                     </div>
-                    <button type="submit" class="btn-submit">Quero ser Parceiro</button>
+                    <button type="submit" class="btn-submit">Avise-me para ser Parceiro</button>
                 </form>
             </section>
 
-            <section class="section section-form-client">
-                <h2 class="section-title">Quero Contratar um Profissional</h2>
-                <p>Seu serviço ideal está a um clique de distância. Conte-nos o que você busca!</p>
+            <section class="section">
+                <h2 class="section-title">Quero Contratar Serviços</h2>
+                <p class="form-intro-text" style="text-align: center; margin-bottom: 25px; font-size: 1rem; color: #555;">
+                    Simplifique suas buscas! Deixe seus dados e avisaremos quando você poderá encontrar os melhores especialistas para suas necessidades, com a garantia e a facilidade que só o ChamadoPro oferece. Você será avisado no momento em que a plataforma estiver operando em sua região.
+                </p>
+                <div class="form-phrase">
+                    <p>Quero ser Avisado</p>
+                </div>
                 <form id="client-form"> <div class="form-group">
                         <label for="client-name">Nome Completo:</label>
-                        <input type="text" id="client-name" name="name" required placeholder="Seu Nome Completo">
+                        <input type="text" id="client-name" name="name" required placeholder="Seu nome">
                     </div>
                     <div class="form-group">
                         <label for="client-email">E-mail:</label>
@@ -110,6 +135,6 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js"></script> 
 </body>
 </html>
