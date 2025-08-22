@@ -11,8 +11,6 @@ function closeModal(modalId) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Inicializar EmailJS (fallback para envio de dados)
-    emailjs.init("YOUR_PUBLIC_KEY"); // Substituir pela sua chave pública do EmailJS
     
     // Função para validar email
     function isValidEmail(email) {
@@ -27,23 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return phoneRegex.test(phone) || (digitsOnly.length >= 10 && digitsOnly.length <= 11);
     }
 
-    // Função para envio via EmailJS (backup mais confiável)
-    async function sendViaEmailJS(templateData, templateName) {
-        try {
-            console.log('📧 Enviando via EmailJS...');
-            const result = await emailjs.send(
-                'YOUR_SERVICE_ID', // ID do serviço EmailJS
-                templateName,      // ID do template
-                templateData,      // Dados do formulário
-                'YOUR_PUBLIC_KEY'  // Chave pública
-            );
-            console.log('✅ EmailJS: Sucesso!', result);
-            return { success: true };
-        } catch (error) {
-            console.error('❌ EmailJS falhou:', error);
-            return { success: false, error };
-        }
-    }
 
     // Função alternativa: salvar localmente e notificar
     function saveLocallyAndNotify(data, formType) {
@@ -71,118 +52,30 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Função para enviar via múltiplos métodos
-    async function submitToGoogleFormMultiMethod(url, data, formName) {
-        console.log(`🚀 Iniciando envio para ${formName}`);
-        console.log('URL:', url);
-        console.log('Dados:', data);
-
-        let success = false;
-        let lastError = null;
-
-        // Método 1: Tentativa com IDs atuais
+    async function submitToFormspree(data, formType) {
+        const url = "https://formspree.io/f/mnnzezyb";
+        let subject = formType === 'Parceiro' ? 'Cadastro novo prestador' : 'Cadastro novo cliente';
+        const payload = {
+            ...data,
+            _subject: subject
+        };
         try {
-            console.log('📡 Método 1: Fetch com URLSearchParams...');
-            const params = new URLSearchParams();
-            Object.keys(data).forEach(key => {
-                params.append(key, data[key]);
-                console.log(`   ${key} = ${data[key]}`);
-            });
-
             const response = await fetch(url, {
                 method: 'POST',
-                mode: 'no-cors',
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
                 },
-                body: params.toString()
+                body: JSON.stringify(payload)
             });
-            
-            console.log('✅ Método 1: Requisição enviada (no-cors mode)');
-            success = true;
-        } catch (error) {
-            console.error('❌ Método 1 falhou:', error);
-            lastError = error;
-        }
-
-        // Método 2: Iframe com form simples (sempre executa como backup)
-        try {
-            console.log('📡 Método 2: Iframe com form backup...');
-            
-            const iframe = document.createElement('iframe');
-            iframe.style.display = 'none';
-            iframe.name = 'hidden_submit_' + Date.now();
-            document.body.appendChild(iframe);
-
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = url;
-            form.target = iframe.name;
-            form.style.display = 'none';
-
-            Object.keys(data).forEach(key => {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = key;
-                input.value = data[key];
-                form.appendChild(input);
-            });
-
-            document.body.appendChild(form);
-            form.submit();
-
-            console.log('✅ Método 2: Iframe enviado como backup');
-            success = true;
-
-            // Limpar após 3 segundos
-            setTimeout(() => {
-                try {
-                    if (document.body.contains(form)) document.body.removeChild(form);
-                    if (document.body.contains(iframe)) document.body.removeChild(iframe);
-                } catch (e) {
-                    console.log('Limpeza já realizada');
-                }
-            }, 3000);
-
-        } catch (error) {
-            console.error('❌ Método 2 falhou:', error);
-            lastError = error;
-        }
-
-        // Método 3: EmailJS (mais confiável para sites estáticos)
-        if (!success) {
-            console.log('📧 Método 3: Tentando EmailJS...');
-            try {
-                const emailData = {
-                    form_type: formName,
-                    timestamp: new Date().toLocaleString('pt-BR'),
-                    ...data
-                };
-                
-                const emailResult = await sendViaEmailJS(emailData, 'template_submission');
-                if (emailResult.success) {
-                    console.log('✅ Método 3: EmailJS funcionou!');
-                    success = true;
-                }
-            } catch (error) {
-                console.error('❌ Método 3 (EmailJS) falhou:', error);
+            if (response.ok) {
+                return { success: true };
+            } else {
+                return { success: false, error: await response.text() };
             }
+        } catch (error) {
+            return { success: false, error };
         }
-
-        // Método 4: Fallback para salvamento local
-        if (!success) {
-            console.log('💾 Método 4: Salvamento local como último recurso...');
-            try {
-                const localResult = saveLocallyAndNotify(data, formName);
-                if (localResult.success) {
-                    console.log('✅ Método 4: Dados salvos localmente para processamento manual');
-                    success = true;
-                }
-            } catch (error) {
-                console.error('❌ Método 4 falhou:', error);
-            }
-        }
-
-        return { success, error: lastError };
     }
 
     // Lidar com o envio do formulário de Parceiro
@@ -218,53 +111,19 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.textContent = 'Enviando...';
 
         try {
-            const googleFormUrlPartner = "https://docs.google.com/forms/d/e/1FAIpQLSdKuS8NwBwBuTGUJQBqLYOUr6-iK55mQigG_2Pj7GTj955GyA/formResponse";
-            
-            // Múltiplas combinações de IDs para testar (caso tenham mudado)
-            const formDataOptions = [
-                // Primeira tentativa - IDs atuais
-                {
-                    "entry.713610385": name,      // Nome Completo
-                    "entry.2073392838": email,    // E-mail
-                    "entry.889362498": phone,     // Telefone (com DDD)
-                    "entry.779401212": specialty  // Sua Especialidade Principal
-                },
-                // Segunda tentativa - IDs alternativos comuns
-                {
-                    "entry.1234567890": name,
-                    "entry.0987654321": email,
-                    "entry.1122334455": phone,
-                    "entry.5544332211": specialty
-                },
-                // Terceira tentativa - formato simples
-                {
-                    "nome": name,
-                    "email": email,
-                    "telefone": phone,
-                    "especialidade": specialty
-                }
-            ];
-
-            let result = null;
-            
-            // Tenta cada conjunto de IDs
-            for (let i = 0; i < formDataOptions.length; i++) {
-                console.log(`🔄 Tentando conjunto de IDs ${i + 1}/${formDataOptions.length}`);
-                try {
-                    result = await submitToGoogleFormMultiMethod(googleFormUrlPartner, formDataOptions[i], `Parceiro (Tentativa ${i + 1})`);
-                    if (result.success) {
-                        console.log(`✅ Sucesso com conjunto ${i + 1}!`);
-                        break;
-                    }
-                } catch (e) {
-                    console.log(`❌ Conjunto ${i + 1} falhou, tentando próximo...`);
-                }
+            const formData = {
+                "Nome Completo": name,
+                "E-mail": email,
+                "Telefone": phone,
+                "Especialidade Principal": specialty
+            };
+            const result = await submitToFormspree(formData, 'Parceiro');
+            if (result.success) {
+                showAlert('Obrigado por seu interesse em ser um Parceiro ChamadoPro! Entraremos em contato em breve.', 'Cadastro de Parceiro');
+            } else {
+                showAlert('Cadastro realizado! Nossa equipe verificará e entrará em contato.', 'Cadastro Recebido');
             }
-
-            // Sempre mostra sucesso para melhor UX
-            showAlert('Obrigado por seu interesse em ser um Parceiro ChamadoPro! Entraremos em contato em breve.', 'Cadastro de Parceiro');
             partnerForm.reset();
-
         } catch (error) {
             console.error('Erro detalhado:', error);
             showAlert('Cadastro realizado! Nossa equipe verificará e entrará em contato.', 'Cadastro Recebido');
@@ -307,25 +166,18 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.textContent = 'Enviando...';
 
         try {
-            const googleFormUrlClient = "https://docs.google.com/forms/d/e/1FAIpQLSfBkq24F3yjisl-14lL8Gt6paARsDOaZ9QK8SSrQdjD05lpbw/formResponse";
-            
-            // IDs dos campos (IDs corretos encontrados no HTML do Google Forms)
             const formData = {
-                "entry.213836730": name,      // Nome Completo
-                "entry.1416529259": email,    // E-mail
-                "entry.1353123680": phone     // Telefone (com DDD)
+                "Nome Completo": name,
+                "E-mail": email,
+                "Telefone": phone
             };
-
-            const result = await submitToGoogleFormMultiMethod(googleFormUrlClient, formData, "Cliente");
-
+            const result = await submitToFormspree(formData, 'Cliente');
             if (result.success) {
                 showAlert('Agradecemos seu interesse! Avisaremos você assim que o ChamadoPro estiver pronto para uso.', 'Cadastro de Cliente');
             } else {
-                console.warn('Erro no envio, mas mostrando sucesso para UX:', result.error);
                 showAlert('Cadastro realizado com sucesso! Avisaremos você assim que o ChamadoPro estiver pronto.', 'Cadastro de Cliente');
             }
             clientForm.reset();
-
         } catch (error) {
             console.error('Erro detalhado:', error);
             showAlert('Cadastro realizado! Nossa equipe verificará e entrará em contato.', 'Cadastro Recebido');
