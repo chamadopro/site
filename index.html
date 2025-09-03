@@ -13,9 +13,9 @@
     <meta name="geo.placename" content="Brasil">
     <meta name="theme-color" content="#17a2b8">
     <meta name="msapplication-TileColor" content="#17a2b8">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="ChamadoPro">
+    <meta name="apple-mobile-web-app-title" content="ChamadoPro">n    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔧</text></svg>">
     <link rel="canonical" href="https://chamadopro.com.br/">
     
     <!-- SEO Adicional -->
@@ -157,7 +157,7 @@
     </script>
 </head>
 <body>
-    <!-- NOVO CABEÇALHO LIMPO -->
+    <!-- CABEÇALHO -->
     <header class="hero-section">
         <div class="hero-content">
             <!-- Logo e Badge -->
@@ -172,7 +172,7 @@
             <!-- Título Principal -->
             <h1>A solução completa para todos os seus serviços.</h1>
             
-            <!-- Descrição atualizada -->
+            <!-- Descrição -->
             <p>De reparos planejados a socorros de emergência, conectaremos você aos melhores profissionais, garantindo qualidade, segurança e preços justos.</p>
             
             <!-- Estatísticas Compactas -->
@@ -194,7 +194,6 @@
     </header>
 
     <div class="cta-out cta-out-middle">
-    <!-- Botão removido conforme solicitado -->
     </div>
 
     <main>
@@ -329,7 +328,9 @@
             <div class="forms-grid">
                 <div class="form-container">
                     <h3><i class="fas fa-user-friends"></i> Quero Contratar Serviços</h3>
-                    <form id="client-form">
+                    <form id="client-form" action="https://formspree.io/f/mnnzezyb" method="POST">
+                        <input type="hidden" name="_subject" value="Novo Cliente - ChamadoPro">
+                        <input type="hidden" name="_next" value="https://chamadopro.com.br#success">
                         <div class="form-group">
                             <label for="client-name"><i class="fas fa-user"></i> Nome Completo:</label>
                             <input type="text" id="client-name" name="name" required placeholder="Seu nome completo">
@@ -342,6 +343,7 @@
                             <label for="client-phone"><i class="fas fa-phone"></i> Telefone (com DDD):</label>
                             <input type="tel" id="client-phone" name="phone" required placeholder="(XX) XXXXX-XXXX">
                         </div>
+                        <input type="hidden" name="tipo" value="Cliente">
                         <button type="submit" class="btn-submit">
                             <i class="fas fa-bell"></i> Avise-me para Contratar
                         </button>
@@ -349,7 +351,9 @@
                 </div>
                 <div class="form-container">
                     <h3><i class="fas fa-user-tie"></i> Seja um Profissional Parceiro</h3>
-                    <form id="partner-form">
+                    <form id="partner-form" action="https://formspree.io/f/mnnzezyb" method="POST">
+                        <input type="hidden" name="_subject" value="Novo Profissional - ChamadoPro">
+                        <input type="hidden" name="_next" value="https://chamadopro.com.br#success">
                         <div class="form-group">
                             <label for="partner-name"><i class="fas fa-user"></i> Nome Completo:</label>
                             <input type="text" id="partner-name" name="name" required placeholder="Seu nome completo">
@@ -366,6 +370,7 @@
                             <label for="partner-specialty"><i class="fas fa-tools"></i> Sua Especialidade Principal:</label>
                             <input type="text" id="partner-specialty" name="specialty" required placeholder="Ex: Eletricista, Encanador, Designer">
                         </div>
+                        <input type="hidden" name="tipo" value="Profissional">
                         <button type="submit" class="btn-submit">
                             <i class="fas fa-handshake"></i> Avise-me para ser Parceiro
                         </button>
@@ -379,7 +384,7 @@
         <p>&copy; 2025 ChamadoPro. Todos os direitos reservados.</p>
         <div class="social-icons">
             <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.instagram.com/chamadopro" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
             <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
         </div>
     </footer>

@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Função específica para animar o contador de profissionais
     const animateProCounter = (element, target) => {
-        console.log('Iniciando animação do contador para:', target);
+
         let current = 0;
         const increment = Math.max(1, Math.floor(target / 200));
         const speed = 15;
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (current >= target) {
                 current = target;
                 clearInterval(timer);
-                console.log('Animação concluída:', target);
+
             }
             element.textContent = Math.floor(current);
         }, speed);
@@ -115,20 +115,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const clientForm = document.getElementById('client-form');
     const partnerForm = document.getElementById('partner-form');
 
-    // Função para enviar email
-    const sendEmail = (formData, templateId) => {
-        if (typeof emailjs !== 'undefined') {
-            emailjs.send('YOUR_SERVICE_ID', templateId, formData)
-                .then(() => {
-                    showAlert('Sucesso! Você será notificado sobre o lançamento.', 'success');
-                })
-                .catch(() => {
-                    showAlert('Erro ao enviar. Tente novamente ou entre em contato conosco.', 'error');
-                });
-        } else {
-            // Fallback - apenas mostrar mensagem de sucesso
-            showAlert('Cadastro realizado! Você será notificado sobre o lançamento.', 'success');
-        }
+    // Função para mostrar mensagem de sucesso após envio do Formspree
+    const showSuccessMessage = (type) => {
+        const message = type === 'Cliente' 
+            ? 'Cadastro realizado! Você será notificado sobre o lançamento para contratar serviços.'
+            : 'Cadastro realizado! Você será notificado sobre o lançamento para ser um profissional parceiro.';
+        showAlert(message, 'success');
     };
 
     // Função para mostrar alertas
@@ -211,17 +203,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // Event listeners dos formulários
     if (clientForm) {
         clientForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
             const formData = {
                 name: document.getElementById('client-name').value,
                 email: document.getElementById('client-email').value,
-                phone: document.getElementById('client-phone').value,
-                type: 'Cliente'
+                phone: document.getElementById('client-phone').value
             };
             
             // Validar campos
             if (!formData.name || !formData.email || !formData.phone) {
+                e.preventDefault();
                 showAlert('Por favor, preencha todos os campos.', 'error');
                 return;
             }
@@ -229,6 +219,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Validar email
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(formData.email)) {
+                e.preventDefault();
                 showAlert('Por favor, insira um email válido.', 'error');
                 return;
             }
@@ -236,29 +227,28 @@ document.addEventListener('DOMContentLoaded', function() {
             // Validar telefone
             const phoneRegex = /^\(\d{2}\)\s\d{4,5}-\d{4}$/;
             if (!phoneRegex.test(formData.phone)) {
+                e.preventDefault();
                 showAlert('Por favor, insira um telefone válido no formato (XX) XXXXX-XXXX.', 'error');
                 return;
             }
             
-            sendEmail(formData, 'template_client');
-            clientForm.reset();
+            // Se passou na validação, permitir envio do Formspree
+            // O Formspree vai redirecionar para #success após o envio
         });
     }
 
     if (partnerForm) {
         partnerForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
             const formData = {
                 name: document.getElementById('partner-name').value,
                 email: document.getElementById('partner-email').value,
                 phone: document.getElementById('partner-phone').value,
-                specialty: document.getElementById('partner-specialty').value,
-                type: 'Profissional'
+                specialty: document.getElementById('partner-specialty').value
             };
             
             // Validar campos
             if (!formData.name || !formData.email || !formData.phone || !formData.specialty) {
+                e.preventDefault();
                 showAlert('Por favor, preencha todos os campos.', 'error');
                 return;
             }
@@ -266,6 +256,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Validar email
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(formData.email)) {
+                e.preventDefault();
                 showAlert('Por favor, insira um email válido.', 'error');
                 return;
             }
@@ -273,12 +264,13 @@ document.addEventListener('DOMContentLoaded', function() {
             // Validar telefone
             const phoneRegex = /^\(\d{2}\)\s\d{4,5}-\d{4}$/;
             if (!phoneRegex.test(formData.phone)) {
+                e.preventDefault();
                 showAlert('Por favor, insira um telefone válido no formato (XX) XXXXX-XXXX.', 'error');
                 return;
             }
             
-            sendEmail(formData, 'template_partner');
-            partnerForm.reset();
+            // Se passou na validação, permitir envio do Formspree
+            // O Formspree vai redirecionar para #success após o envio
         });
     }
 
@@ -387,7 +379,7 @@ document.addEventListener('DOMContentLoaded', function() {
             };
             
             // Aqui você pode enviar para EmailJS ou outro serviço
-            console.log('Sugestão de serviço:', formData);
+
             
             showAlert(`Obrigado pela sugestão! Recebemos sua ideia para "${serviceName}". Vamos considerar adicionar este serviço à nossa plataforma!`, 'success');
             
@@ -490,5 +482,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    console.log('ChamadoPro - Site carregado com sucesso!');
+    // Verificar se o usuário retornou do Formspree com sucesso
+    if (window.location.hash === '#success') {
+        // Remover o hash da URL
+        history.replaceState(null, null, window.location.pathname);
+        
+        // Mostrar mensagem de sucesso
+        showAlert('Cadastro realizado com sucesso! Você será notificado sobre o lançamento do ChamadoPro.', 'success');
+    }
+
+
 });
