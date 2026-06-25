@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+:root {
+  --cp-background: #f5f5f5;
+  --cp-surface: #ffffff;
+  --cp-surface-muted: #fafafa;
+  --cp-border: #e8e8e8;
+  --cp-text-primary: #222222;
+  --cp-text-secondary: #777777;
+  --cp-text-disabled: #a0a0a0;
+  --cp-accent: #ff7a00;
+  --cp-accent-hover: #e66e00;
+  --cp-accent-soft: #fffdf9;
+  --cp-brand-blue: #2563eb;
+  --cp-danger: #dc2626;
+  --cp-success: #16a34a;
+  --cp-radius-card: 1.25rem;
+  --cp-radius-input: 1.125rem;
+  --cp-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+@theme inline {
+  --font-sans: var(--font-inter);
+  --color-cp-background: var(--cp-background);
+  --color-cp-surface: var(--cp-surface);
+  --color-cp-surface-muted: var(--cp-surface-muted);
+  --color-cp-border: var(--cp-border);
+  --color-cp-text-primary: var(--cp-text-primary);
+  --color-cp-text-secondary: var(--cp-text-secondary);
+  --color-cp-text-disabled: var(--cp-text-disabled);
+  --color-cp-accent: var(--cp-accent);
+  --color-cp-accent-soft: var(--cp-accent-soft);
+  --color-cp-brand-blue: var(--cp-brand-blue);
+  --color-cp-danger: var(--cp-danger);
+  --color-cp-success: var(--cp-success);
+  --radius-cp-card: var(--cp-radius-card);
+  --radius-cp-input: var(--cp-radius-input);
+  --shadow-cp: var(--cp-shadow);
+}
+
+html {
+  color-scheme: light;
+}
+
+body {
+  background: var(--cp-background);
+  color: var(--cp-text-primary);
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
