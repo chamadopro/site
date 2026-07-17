@@ -5,7 +5,7 @@ import { AppDownloadSection } from '@/components/AppDownloadSection';
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 import { ClientProviders } from '@/components/providers/ClientProviders';
-import { DEFAULT_OG_IMAGE, SITE_NAME, SITE_URL } from '@/lib/siteConfig';
+import { DEFAULT_OG_IMAGE, OG_IMAGE_VERSION, SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 import './globals.css';
 
 const inter = Inter({
@@ -15,14 +15,18 @@ const inter = Inter({
   display: 'swap',
 });
 
+const defaultDescription =
+  'Posta o que precisa e receba orçamentos de profissionais da sua região. Tudo pelo app ChamadoPro, com pagamento protegido.';
+
+const shareImage = `${DEFAULT_OG_IMAGE}?v=${OG_IMAGE_VERSION}`;
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default: 'ChamadoPro — Do chamado ao orçamento em minutos',
     template: '%s | ChamadoPro',
   },
-  description:
-    'Posta o que precisa e receba orçamentos de profissionais da sua região. Tudo pelo app ChamadoPro, com pagamento protegido.',
+  description: defaultDescription,
   alternates: { canonical: SITE_URL },
   icons: {
     icon: [
@@ -36,22 +40,25 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'pt_BR',
     siteName: SITE_NAME,
+    title: SITE_NAME,
+    description: defaultDescription,
     url: SITE_URL,
     images: [
       {
-        url: DEFAULT_OG_IMAGE,
+        url: shareImage,
         width: 1024,
         height: 1024,
         alt: SITE_NAME,
+        type: 'image/png',
       },
     ],
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'ChamadoPro — Do chamado ao orçamento em minutos',
-    description:
-      'Posta o que precisa e receba orçamentos de profissionais da sua região. Tudo pelo app ChamadoPro, com pagamento protegido.',
-    images: [DEFAULT_OG_IMAGE],
+    // Igual ao app: miniatura do logo na lateral do preview
+    card: 'summary',
+    title: SITE_NAME,
+    description: defaultDescription,
+    images: [shareImage],
   },
 };
 

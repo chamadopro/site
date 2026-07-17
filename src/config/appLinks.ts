@@ -57,4 +57,9 @@ export const appLinks = {
 export const siteContact = {
   email: 'contato@chamadopro.com.br',
   mailto: 'mailto:contato@chamadopro.com.br',
+  /** Exibição amigável do WhatsApp */
+  whatsappDisplay: '11 92614-2121',
+  /** E.164 sem + — usado em wa.me */
+  whatsappE164: '5511926142121',
+  whatsappUrl: 'https://wa.me/5511926142121',
 } as const;

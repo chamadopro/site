@@ -7,6 +7,7 @@ import { SpecialtiesSection } from '@/components/home/SpecialtiesSection';
 
 export const metadata = buildPageMetadata({
   title: 'Início',
+  ogTitle: 'ChamadoPro',
   description:
     'Pare de perder tempo procurando indicações. Fale o serviço que precisa e o ChamadoPro cuida do resto — com pagamento protegido.',
   path: '/',
