@@ -174,3 +174,12 @@ export function getAllEspecialidadePaths(catalogo: CatalogCategoria[]): Array<{
     }))
   );
 }
+
+export function getAllLocalPaths(
+  catalogo: CatalogCategoria[],
+  cidadeSlugs: string[]
+): Array<{ categoria: string; especialidade: string; cidade: string }> {
+  return getAllEspecialidadePaths(catalogo).flatMap(({ categoria, especialidade }) =>
+    cidadeSlugs.map((cidade) => ({ categoria, especialidade, cidade }))
+  );
+}

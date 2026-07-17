@@ -1,93 +1,112 @@
-import type { Metadata } from 'next';
-import { ContentSection, CtaBlock, PageHero } from '@/components/layout/PageShell';
-import { appLinks } from '@/config/appLinks';
+import {
+  PageHero,
+  pageContainerClass,
+  pageSectionClass,
+} from '@/components/layout/PageShell';
+import { buildPageMetadata } from '@/lib/metadataHelpers';
+import {
+  clientFlowStepsPage,
+  comoFuncionaPage,
+  metadataCopy,
+  providerFlowSteps,
+} from '@/lib/marketingContent';
+import { cn } from '@/lib/cn';
 
-export const metadata: Metadata = {
-  title: 'Como funciona',
-  description:
-    'Entenda como pedir serviços e como prestar serviços no ChamadoPro: orçamentos, pagamento seguro e avaliações.',
-};
+export const metadata = buildPageMetadata({
+  title: metadataCopy.comoFunciona.title,
+  description: metadataCopy.comoFunciona.description,
+  path: '/como-funciona',
+});
 
-const clientSteps = [
-  {
-    title: '1. Entre no app e publique o que precisa',
-    body: 'Faça login no ChamadoPro e descreva o serviço, local e urgência. Você pode usar texto, fotos ou o Chama.AI.',
-  },
-  {
-    title: '2. Receba orçamentos',
-    body: 'Prestadores da sua região enviam propostas com valor, prazo e detalhes para você comparar.',
-  },
-  {
-    title: '3. Escolha e pague com segurança',
-    body: 'Ao aceitar um orçamento, o pagamento fica em custódia até a conclusão do serviço.',
-  },
-  {
-    title: '4. Avalie o profissional',
-    body: 'Depois do serviço, sua avaliação ajuda outros clientes e fortalece a reputação dos bons prestadores.',
-  },
-];
+function JourneyColumn({
+  title,
+  steps,
+  accent,
+}: {
+  title: string;
+  steps: readonly { title: string; body: string }[];
+  accent: 'orange' | 'blue';
+}) {
+  const isOrange = accent === 'orange';
 
-const providerSteps = [
-  {
-    title: '1. Cadastre-se como prestador',
-    body: 'Informe suas especialidades, área de atuação e documentação para começar a receber oportunidades.',
-  },
-  {
-    title: '2. Veja pedidos na região',
-    body: 'Acesse oportunidades compatíveis com o que você faz e envie orçamentos competitivos.',
-  },
-  {
-    title: '3. Execute e receba',
-    body: 'Após a aprovação do cliente e conclusão do serviço, o repasse segue o fluxo financeiro da plataforma.',
-  },
-];
+  return (
+    <section
+      className={cn(
+        'rounded-2xl border p-5 sm:p-6 lg:p-7',
+        isOrange
+          ? 'border-brand-orange-border/40 bg-brand-orange-light/15'
+          : 'border-brand-blue-border/40 bg-brand-blue-light/25'
+      )}
+    >
+      <h2
+        className={cn(
+          'page-h2',
+          isOrange ? 'text-brand-orange' : 'text-brand-blue'
+        )}
+      >
+        {title}
+      </h2>
+
+      <ol className="mt-5 space-y-0 sm:mt-6">
+        {steps.map((step, index) => {
+          const isLast = index === steps.length - 1;
+
+          return (
+            <li key={step.title} className="relative flex gap-3 sm:gap-4">
+              {!isLast ? (
+                <span
+                  className={cn(
+                    'absolute left-[15px] top-8 bottom-0 w-px sm:left-[17px]',
+                    isOrange ? 'bg-brand-orange/20' : 'bg-brand-blue/20'
+                  )}
+                  aria-hidden
+                />
+              ) : null}
+
+              <span
+                className={cn(
+                  'relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold tabular-nums sm:h-9 sm:w-9',
+                  isOrange
+                    ? 'bg-brand-orange-light text-brand-orange'
+                    : 'bg-brand-blue-light text-brand-blue'
+                )}
+              >
+                {index + 1}
+              </span>
+
+              <div className={cn('min-w-0 pb-5 sm:pb-6', isLast && 'pb-0 sm:pb-0')}>
+                <h3 className="page-card-title">{step.title}</h3>
+                <p className="page-body mt-1">{step.body}</p>
+              </div>
+            </li>
+          );
+        })}
+      </ol>
+    </section>
+  );
+}
 
 export default function ComoFuncionaPage() {
   return (
     <>
-      <PageHero
-        title="Como funciona o ChamadoPro"
-        description="Uma plataforma que conecta quem precisa de um serviço a profissionais da região, com orçamentos transparentes e pagamento protegido."
-      />
-      <ContentSection>
-        <h2 className="text-2xl font-bold text-cp-text-primary">Para clientes</h2>
-        <div className="mt-6 space-y-6">
-          {clientSteps.map((step) => (
-            <div
-              key={step.title}
-              className="rounded-cp-card border border-cp-border bg-cp-surface p-5 shadow-cp"
-            >
-              <h3 className="font-semibold text-cp-text-primary">{step.title}</h3>
-              <p className="mt-2 text-cp-text-secondary">{step.body}</p>
-            </div>
-          ))}
-        </div>
+      <PageHero title={comoFuncionaPage.heroTitle} />
 
-        <h2 className="mt-12 text-2xl font-bold text-cp-text-primary">Para prestadores</h2>
-        <div className="mt-6 space-y-6">
-          {providerSteps.map((step) => (
-            <div
-              key={step.title}
-              className="rounded-cp-card border border-cp-border bg-cp-surface p-5 shadow-cp"
-            >
-              <h3 className="font-semibold text-cp-text-primary">{step.title}</h3>
-              <p className="mt-2 text-cp-text-secondary">{step.body}</p>
-            </div>
-          ))}
+      <div className={pageSectionClass}>
+        <div className={pageContainerClass}>
+          <div className="grid gap-5 sm:gap-6 lg:grid-cols-2 lg:items-start lg:gap-8">
+            <JourneyColumn
+              title="Jornada do cliente"
+              steps={clientFlowStepsPage}
+              accent="orange"
+            />
+            <JourneyColumn
+              title="Jornada do prestador"
+              steps={providerFlowSteps}
+              accent="blue"
+            />
+          </div>
         </div>
-
-        <div className="mt-12">
-          <CtaBlock
-            title="Comece no aplicativo"
-            description="Crie sua conta ou entre no ChamadoPro para publicar pedidos e receber orçamentos."
-            primaryHref={appLinks.entrarParaPedirServico()}
-            primaryLabel="Entrar no app"
-            secondaryHref={appLinks.cadastrarCliente}
-            secondaryLabel="Criar conta"
-            external
-          />
-        </div>
-      </ContentSection>
+      </div>
     </>
   );
 }

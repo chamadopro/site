@@ -1,11 +1,12 @@
-import type { Metadata } from 'next';
 import { ContentSection, CtaBlock, PageHero } from '@/components/layout/PageShell';
 import { appLinks } from '@/config/appLinks';
+import { buildPageMetadata } from '@/lib/metadataHelpers';
 
-export const metadata: Metadata = {
+export const metadata = buildPageMetadata({
   title: 'FAQ',
   description: 'Perguntas frequentes sobre pagamento, taxas, cadastro e suporte no ChamadoPro.',
-};
+  path: '/faq',
+});
 
 const faqs = [
   {
@@ -42,20 +43,22 @@ export default function FaqPage() {
         description="Respostas rápidas sobre como usar o ChamadoPro como cliente ou prestador."
       />
       <ContentSection narrow>
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           {faqs.map((item) => (
             <details
               key={item.q}
-              className="group rounded-cp-card border border-cp-border bg-cp-surface p-5 shadow-cp"
+              className="group rounded-2xl border border-cp-border bg-white p-4 sm:p-5"
             >
-              <summary className="cursor-pointer list-none font-semibold text-cp-text-primary marker:content-none [&::-webkit-details-marker]:hidden">
+              <summary className="page-card-title cursor-pointer list-none marker:content-none [&::-webkit-details-marker]:hidden">
                 {item.q}
               </summary>
-              <p className="mt-3 text-sm leading-relaxed text-cp-text-secondary">{item.a}</p>
+              <p className="page-body mt-3">
+                {item.a}
+              </p>
             </details>
           ))}
         </div>
-        <div className="mt-10">
+        <div className="mt-8 sm:mt-10 lg:mt-12">
           <CtaBlock
             title="Ainda com dúvidas?"
             description="Acesse o app ou fale com nosso time pelo e-mail de contato."

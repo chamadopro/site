@@ -7,9 +7,11 @@ O site institucional usa a mesma linguagem visual do aplicativo ChamadoPro para 
 ## Princípios
 
 1. **Modo claro fixo** na V1 (sem dark mode no site).
-2. **Laranja** (`cp-accent`) nos CTAs primários do site.
+2. **Cores por público** — não alternar laranja/azul por estética; cada cor tem significado:
+   - **Laranja** (`cp-accent`) → jornada do **cliente** (“Chamado”)
+   - **Azul** (`cp-brand-blue`) → jornada do **prestador** (“Pro”)
 3. **Header branco** com borda cinza — espelha o header guest do app.
-4. **Logo:** ícone `public/logo.svg` + wordmark “Chamado” laranja + “Pro” azul.
+4. **Logo:** ícone `public/logo.png` + wordmark “Chamado” laranja + “Pro” azul.
 
 ## Tokens CSS
 
@@ -17,16 +19,16 @@ Definidos em `src/app/globals.css`. Fonte canônica no app: `frontend/src/app/gl
 
 | Token | Valor | Uso |
 |-------|-------|-----|
-| `--cp-accent` | `#ff7a00` | CTAs primários, links de destaque |
-| `--cp-accent-hover` | `#e66e00` | Hover de botão primário |
-| `--cp-accent-soft` | `#fffdf9` | Fundos suaves, cards de destaque |
+| `--cp-accent` | `#ff7a00` | Cliente — CTAs, benefícios, catálogo |
+| `--cp-accent-hover` | `#e66e00` | Hover de ação do cliente |
+| `--cp-accent-soft` | `#fff8f2` | Fundos suaves da jornada cliente |
 | `--cp-background` | `#f5f5f5` | Fundo da página |
 | `--cp-surface` | `#ffffff` | Header, cards |
 | `--cp-surface-muted` | `#fafafa` | Hover de navegação |
 | `--cp-border` | `#e8e8e8` | Bordas |
 | `--cp-text-primary` | `#222222` | Títulos e corpo |
 | `--cp-text-secondary` | `#777777` | Subtítulos e legendas |
-| `--cp-brand-blue` | `#2563eb` | “Pro” no logotipo |
+| `--cp-brand-blue` | `#2563eb` | Prestador — CTAs, links, “Pro” no logotipo |
 | `--cp-radius-card` | `1.25rem` | Cards de categoria e benefícios |
 | `--cp-shadow` | ver CSS | Sombra leve em cards |
 
@@ -43,14 +45,20 @@ Classes Tailwind: `bg-cp-accent`, `text-cp-text-primary`, `rounded-cp-card`, etc
 | Componente | Arquivo | Notas |
 |------------|---------|-------|
 | Logo | `src/components/Logo.tsx` | Sem branding dinâmico na V1 |
-| Button / ButtonLink | `src/components/ui/Button.tsx` | Primário laranja; outline para secundário |
+| Button / ButtonLink | `src/components/ui/Button.tsx` | `primary` = cliente (laranja); `brand` = prestador (azul) |
 | Header | `src/components/layout/Header.tsx` | Sticky, menu mobile |
 | Footer | `src/components/layout/Footer.tsx` | Links institucionais + legais no app |
 | PageHero | `src/components/layout/PageShell.tsx` | Cabeçalho de páginas internas |
 
-## Botões no site vs app
+## Botões no site
 
-No **app**, o botão `Button` primário interno costuma ser azul. No **site**, o primário é **laranja** (`cp-accent`) para reforçar a marca nas páginas de marketing.
+| Variante | Cor | Uso |
+|----------|-----|-----|
+| `primary` | Laranja | Ações do **cliente** (cadastrar, solicitar serviço) |
+| `brand` | Azul | Ações do **prestador** (cadastro prestador) |
+| `outline` | Neutro | Ações gerais (entrar, como funciona) |
+
+Classes semânticas centralizadas em `src/lib/audienceColors.ts`.
 
 ## Assets
 

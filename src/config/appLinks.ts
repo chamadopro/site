@@ -22,6 +22,12 @@ export const appLinks = {
   /** Entrar no app (sem redirecionamento pós-login) */
   login: `${appUrl}/login`,
 
+  /** Login com intenção de cliente — "Preciso de um profissional" */
+  loginCliente: `${appUrl}/login?intent=cliente`,
+
+  /** Login com intenção de prestador — "Sou um profissional" */
+  loginPrestador: `${appUrl}/login?intent=prestador`,
+
   /** Cadastro geral */
   register: `${appUrl}/register`,
 
@@ -43,6 +49,9 @@ export const appLinks = {
   politicaPrivacidade: `${appUrl}/politica-de-privacidade`,
   termosCliente: `${appUrl}/termos-de-uso-cliente`,
   termosPrestador: `${appUrl}/termos-de-uso-prestador`,
+
+  /** APK Android — instalação direta */
+  apkAndroid: `${appUrl}/downloads/ChamadoPro.apk`,
 } as const;
 
 export const siteContact = {

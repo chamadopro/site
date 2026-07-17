@@ -1,18 +1,37 @@
 import { ButtonLink } from '@/components/ui/Button';
+import type { Audience } from '@/lib/audienceColors';
 import { cn } from '@/lib/cn';
+
+/** Container padrão das páginas internas (PC + mobile). */
+export const pageContainerClass =
+  'mx-auto w-full max-w-6xl px-4 sm:px-6 lg:max-w-[1100px] lg:px-10';
+
+/** Padding vertical padrão do bloco de conteúdo. */
+export const pageSectionClass = 'bg-cp-background py-8 sm:py-10 lg:py-14';
 
 interface PageHeroProps {
   title: string;
-  description: string;
+  description?: string;
   className?: string;
 }
 
 export function PageHero({ title, description, className }: PageHeroProps) {
   return (
     <section className={cn('border-b border-cp-border bg-cp-surface', className)}>
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold text-cp-text-primary sm:text-4xl">{title}</h1>
-        <p className="mt-4 max-w-3xl text-lg text-cp-text-secondary">{description}</p>
+      <div
+        className={cn(
+          pageContainerClass,
+          description ? 'py-10 sm:py-12' : 'py-8 sm:py-10 lg:py-12'
+        )}
+      >
+        <h1 className="text-3xl font-bold tracking-[-0.02em] text-cp-text-primary sm:text-4xl">
+          {title}
+        </h1>
+        {description ? (
+          <p className="mt-3 max-w-3xl text-base leading-relaxed text-cp-text-secondary sm:mt-4 sm:text-lg">
+            {description}
+          </p>
+        ) : null}
       </div>
     </section>
   );
@@ -21,15 +40,16 @@ export function PageHero({ title, description, className }: PageHeroProps) {
 interface ContentSectionProps {
   children: React.ReactNode;
   narrow?: boolean;
+  className?: string;
 }
 
-export function ContentSection({ children, narrow }: ContentSectionProps) {
+export function ContentSection({ children, narrow, className }: ContentSectionProps) {
   return (
-    <section className="bg-cp-background py-12 sm:py-16">
+    <section className={cn(pageSectionClass, className)}>
       <div
         className={cn(
-          'mx-auto px-4 sm:px-6 lg:px-8',
-          narrow ? 'max-w-3xl' : 'max-w-4xl'
+          'mx-auto w-full px-4 sm:px-6 lg:px-10',
+          narrow ? 'max-w-3xl' : 'max-w-6xl lg:max-w-[1100px]'
         )}
       >
         {children}
@@ -46,6 +66,8 @@ interface CtaBlockProps {
   secondaryHref?: string;
   secondaryLabel?: string;
   external?: boolean;
+  /** Laranja = cliente. Azul = prestador. */
+  audience?: Audience;
 }
 
 export function CtaBlock({
@@ -56,13 +78,22 @@ export function CtaBlock({
   secondaryHref,
   secondaryLabel,
   external,
+  audience = 'client',
 }: CtaBlockProps) {
+  const primaryVariant = audience === 'provider' ? 'brand' : 'primary';
+
   return (
-    <div className="rounded-cp-card border border-cp-border bg-cp-surface p-8 shadow-cp">
-      <h2 className="text-xl font-semibold text-cp-text-primary">{title}</h2>
-      <p className="mt-2 text-cp-text-secondary">{description}</p>
-      <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-        <ButtonLink href={primaryHref} external={external}>
+    <div className="rounded-2xl border border-cp-border bg-white p-5 sm:p-6 lg:flex lg:items-center lg:justify-between lg:gap-10 lg:p-8">
+      <div className="max-w-xl">
+        <h2 className="page-h2 text-cp-text-primary">
+          {title}
+        </h2>
+        <p className="page-body mt-2">
+          {description}
+        </p>
+      </div>
+      <div className="mt-5 flex w-full flex-col gap-3 sm:mt-6 sm:w-auto sm:flex-row lg:mt-0 lg:shrink-0">
+        <ButtonLink href={primaryHref} variant={primaryVariant} external={external}>
           {primaryLabel}
         </ButtonLink>
         {secondaryHref && secondaryLabel && (

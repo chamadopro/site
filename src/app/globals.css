@@ -5,18 +5,29 @@
   --cp-surface: #ffffff;
   --cp-surface-muted: #fafafa;
   --cp-border: #e8e8e8;
-  --cp-text-primary: #222222;
+  --cp-text-primary: #0d1824;
   --cp-text-secondary: #777777;
   --cp-text-disabled: #a0a0a0;
-  --cp-accent: #ff7a00;
-  --cp-accent-hover: #e66e00;
-  --cp-accent-soft: #fffdf9;
-  --cp-brand-blue: #2563eb;
+  --cp-accent: #ff6b35;
+  --cp-accent-hover: #e85a20;
+  --cp-accent-soft: #fff0eb;
+  --cp-brand-blue: #185fa5;
+  --cp-brand-blue-hover: #134a82;
+  --cp-brand-blue-soft: #f0f6ff;
   --cp-danger: #dc2626;
-  --cp-success: #16a34a;
+  --cp-success: #0f6e56;
+  --brand-orange: #ff6b35;
+  --brand-orange-light: #fff0eb;
+  --brand-orange-border: #ffd5c0;
+  --brand-orange-text: #993c1d;
+  --brand-blue: #185fa5;
+  --brand-blue-light: #f0f6ff;
+  --brand-blue-border: #b5d4f4;
+  --brand-green: #0f6e56;
+  --brand-green-light: #e1f5ee;
+  --brand-dark: #0d1824;
   --cp-radius-card: 1.25rem;
   --cp-radius-input: 1.125rem;
-  --cp-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 2px 8px rgba(0, 0, 0, 0.03);
 }
 
 @theme inline {
@@ -31,11 +42,21 @@
   --color-cp-accent: var(--cp-accent);
   --color-cp-accent-soft: var(--cp-accent-soft);
   --color-cp-brand-blue: var(--cp-brand-blue);
+  --color-cp-brand-blue-soft: var(--cp-brand-blue-soft);
   --color-cp-danger: var(--cp-danger);
   --color-cp-success: var(--cp-success);
+  --color-brand-orange: var(--brand-orange);
+  --color-brand-orange-light: var(--brand-orange-light);
+  --color-brand-orange-border: var(--brand-orange-border);
+  --color-brand-orange-text: var(--brand-orange-text);
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-blue-light: var(--brand-blue-light);
+  --color-brand-blue-border: var(--brand-blue-border);
+  --color-brand-green: var(--brand-green);
+  --color-brand-green-light: var(--brand-green-light);
+  --color-brand-dark: var(--brand-dark);
   --radius-cp-card: var(--cp-radius-card);
   --radius-cp-input: var(--cp-radius-input);
-  --shadow-cp: var(--cp-shadow);
 }
 
 html {
@@ -46,6 +67,95 @@ body {
   background: var(--cp-background);
   color: var(--cp-text-primary);
   font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+@layer components {
+  /* ── Home PC layout (lg+) ── */
+  .home-container {
+    @apply mx-auto w-full max-w-6xl px-4;
+    @apply lg:max-w-[1280px] lg:px-10;
+    @apply xl:max-w-[1440px] xl:px-12;
+  }
+
+  .home-section {
+    @apply py-8;
+    @apply lg:py-14 xl:py-16;
+  }
+
+  .home-section-tight {
+    @apply py-6 lg:py-10;
+  }
+
+  .home-h1 {
+    @apply text-[1.75rem] font-bold leading-[1.15] tracking-[-0.025em] text-cp-text-primary;
+    @apply lg:text-[2.75rem] lg:leading-[1.12];
+    @apply xl:text-[3.125rem];
+  }
+
+  .home-hero-title {
+    @apply max-w-[16ch] text-[1.625rem] font-bold leading-[1.15] tracking-[-0.03em] text-slate-800;
+    @apply sm:max-w-[18ch] sm:text-3xl;
+    @apply lg:max-w-[14ch] lg:text-[3rem] lg:leading-[1.1];
+    @apply xl:text-[3.5rem] xl:leading-[1.08];
+  }
+
+  .home-hero-lead {
+    @apply mt-5 max-w-[600px] text-base leading-relaxed text-cp-text-secondary;
+    @apply sm:mt-6 sm:text-[1.0625rem] sm:leading-[1.65];
+    @apply lg:mt-8 lg:text-lg;
+  }
+
+  .home-h2 {
+    @apply text-base font-medium leading-snug tracking-[-0.015em] text-cp-text-primary;
+    @apply lg:text-[1.375rem] xl:text-2xl;
+  }
+
+  .home-lead {
+    @apply text-sm leading-relaxed text-cp-text-secondary;
+    @apply lg:text-[1.0625rem] lg:leading-[1.65];
+  }
+
+  .home-meta {
+    @apply text-xs leading-snug text-gray-400 lg:text-[0.8125rem];
+  }
+
+  .home-eyebrow {
+    @apply text-xs font-medium uppercase tracking-[0.12em] text-brand-orange;
+    @apply lg:text-[0.8125rem];
+  }
+
+  .home-card-title {
+    @apply text-sm font-medium leading-snug text-cp-text-primary lg:text-base;
+  }
+
+  .home-card-body {
+    @apply text-xs leading-relaxed text-cp-text-secondary lg:text-sm lg:leading-relaxed;
+  }
+
+  .home-card {
+    @apply rounded-2xl border border-gray-100 bg-white;
+    @apply lg:transition-shadow lg:duration-200 lg:hover:shadow-md;
+  }
+
+  .home-btn-row {
+    @apply flex flex-wrap gap-2.5 lg:gap-3;
+  }
+
+  /* ── Páginas internas: tipografia padrão ── */
+  .page-body {
+    @apply text-sm leading-relaxed text-cp-text-secondary sm:text-[0.9375rem];
+  }
+
+  .page-h2 {
+    @apply text-lg font-bold tracking-[-0.02em] sm:text-xl;
+  }
+
+  .page-card-title {
+    @apply text-[0.9375rem] font-semibold leading-snug text-cp-text-primary sm:text-base;
+  }
 }

@@ -1,27 +1,57 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { OrganizationJsonLd } from '@/components/seo/JsonLd';
+import { AppDownloadSection } from '@/components/AppDownloadSection';
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
+import { ClientProviders } from '@/components/providers/ClientProviders';
+import { DEFAULT_OG_IMAGE, SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 import './globals.css';
 
 const inter = Inter({
   subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
   variable: '--font-inter',
   display: 'swap',
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://chamadopro.com.br'),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: 'ChamadoPro — Encontre profissionais confiáveis perto de você',
+    default: 'ChamadoPro — Do chamado ao orçamento em minutos',
     template: '%s | ChamadoPro',
   },
   description:
-    'Site institucional do ChamadoPro. Conheça os serviços disponíveis e acesse o aplicativo para solicitar orçamentos com pagamento seguro.',
+    'Posta o que precisa e receba orçamentos de profissionais da sua região. Tudo pelo app ChamadoPro, com pagamento protegido.',
+  alternates: { canonical: SITE_URL },
+  icons: {
+    icon: [
+      { url: '/favicon-32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon-48.png', sizes: '48x48', type: 'image/png' },
+      { url: '/favicon-64.png', sizes: '64x64', type: 'image/png' },
+    ],
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
+  },
   openGraph: {
     type: 'website',
     locale: 'pt_BR',
-    siteName: 'ChamadoPro',
+    siteName: SITE_NAME,
+    url: SITE_URL,
+    images: [
+      {
+        url: DEFAULT_OG_IMAGE,
+        width: 1024,
+        height: 1024,
+        alt: SITE_NAME,
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'ChamadoPro — Do chamado ao orçamento em minutos',
+    description:
+      'Posta o que precisa e receba orçamentos de profissionais da sua região. Tudo pelo app ChamadoPro, com pagamento protegido.',
+    images: [DEFAULT_OG_IMAGE],
   },
 };
 
@@ -33,9 +63,13 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className={`${inter.variable} h-full`}>
       <body className="flex min-h-full flex-col font-sans antialiased">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <ClientProviders>
+          <OrganizationJsonLd />
+          <Header />
+          <main className="flex-1">{children}</main>
+          <AppDownloadSection />
+          <Footer />
+        </ClientProviders>
       </body>
     </html>
   );

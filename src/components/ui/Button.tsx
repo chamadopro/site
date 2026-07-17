@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { cn } from '@/lib/cn';
 
-type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost';
+type ButtonVariant = 'primary' | 'brand' | 'secondary' | 'outline' | 'outline-brand' | 'ghost';
 type ButtonSize = 'sm' | 'md' | 'lg';
 
 interface ButtonBaseProps {
@@ -14,9 +14,13 @@ interface ButtonBaseProps {
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
     'bg-cp-accent text-white hover:bg-[var(--cp-accent-hover)] shadow-sm border border-transparent',
+  brand:
+    'bg-cp-brand-blue text-white hover:bg-[var(--cp-brand-blue-hover)] shadow-sm border border-transparent',
   secondary: 'bg-cp-surface-muted text-cp-text-primary hover:bg-cp-border/40 border border-cp-border',
   outline:
     'border border-cp-border bg-cp-surface text-cp-text-primary hover:bg-cp-surface-muted',
+  'outline-brand':
+    'border border-cp-brand-blue/25 bg-cp-surface text-cp-brand-blue hover:bg-cp-brand-blue-soft',
   ghost: 'bg-transparent text-cp-text-primary hover:bg-cp-surface-muted',
 };
 

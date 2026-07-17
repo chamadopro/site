@@ -1,14 +1,25 @@
-import { CategoryGrid, CtaSection, HeroSection } from '@/components/home/HomeSections';
-import { fetchCatalogo } from '@/lib/catalog';
+import { buildPageMetadata } from '@/lib/metadataHelpers';
+import { BenefitsSection } from '@/components/home/BenefitsSection';
+import { ClosingSection } from '@/components/home/ClosingSection';
+import { HeroSection } from '@/components/home/HeroSection';
+import { HowItWorksSection } from '@/components/home/HowItWorksSection';
+import { SpecialtiesSection } from '@/components/home/SpecialtiesSection';
 
-export default async function HomePage() {
-  const categorias = await fetchCatalogo();
+export const metadata = buildPageMetadata({
+  title: 'Início',
+  description:
+    'Pare de perder tempo procurando indicações. Fale o serviço que precisa e o ChamadoPro cuida do resto — com pagamento protegido.',
+  path: '/',
+});
 
+export default function HomePage() {
   return (
     <>
       <HeroSection />
-      <CategoryGrid categorias={categorias} />
-      <CtaSection />
+      <HowItWorksSection />
+      <BenefitsSection />
+      <SpecialtiesSection />
+      <ClosingSection />
     </>
   );
 }

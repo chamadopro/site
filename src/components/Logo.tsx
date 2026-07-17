@@ -11,15 +11,15 @@ interface LogoProps {
 }
 
 const sizeClasses = {
-  sm: 'h-10 w-10',
-  md: 'h-12 w-12',
-  lg: 'h-16 w-16',
+  sm: 'h-11 w-11',
+  md: 'h-[3.3rem] w-[3.3rem]',
+  lg: 'h-[4.4rem] w-[4.4rem]',
 } as const;
 
 const textSizeClasses = {
-  sm: 'text-sm',
+  sm: 'text-[0.9375rem]',
   md: 'text-xl',
-  lg: 'text-2xl',
+  lg: 'text-[1.65rem]',
 } as const;
 
 export function Logo({
@@ -33,7 +33,7 @@ export function Logo({
     <div className={cn('flex items-center gap-2', className)}>
       <div className={cn(sizeClasses[size], 'relative shrink-0')}>
         <Image
-          src="/logo.svg"
+          src="/logo.png"
           alt="ChamadoPro"
           fill
           sizes="64px"
@@ -43,7 +43,7 @@ export function Logo({
       </div>
       {showText && (
         <span className={cn('font-bold leading-none', textClassName ?? textSizeClasses[size])}>
-          <span className="text-[#ff7a00]">Chamado</span>
+          <span className="text-cp-accent">Chamado</span>
           <span className="text-cp-brand-blue">Pro</span>
         </span>
       )}

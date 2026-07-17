@@ -1,11 +1,12 @@
-import type { Metadata } from 'next';
 import { ContentSection, PageHero } from '@/components/layout/PageShell';
+import { buildPageMetadata } from '@/lib/metadataHelpers';
 
-export const metadata: Metadata = {
+export const metadata = buildPageMetadata({
   title: 'Sobre',
   description:
     'Conheça o ChamadoPro: marketplace de serviços que conecta clientes e prestadores com transparência e segurança.',
-};
+  path: '/sobre',
+});
 
 export default function SobrePage() {
   return (
@@ -15,7 +16,7 @@ export default function SobrePage() {
         description="Construímos uma forma mais segura e transparente de contratar serviços locais — para quem precisa resolver algo em casa ou no negócio, e para quem vive do seu ofício."
       />
       <ContentSection narrow>
-        <div className="space-y-6 text-cp-text-secondary leading-relaxed">
+        <div className="page-body space-y-6">
           <p>
             O ChamadoPro nasceu da necessidade de organizar a contratação de serviços: menos
             incerteza sobre preço, mais clareza no que será feito e maior proteção no pagamento.

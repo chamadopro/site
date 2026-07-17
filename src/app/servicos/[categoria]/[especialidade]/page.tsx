@@ -1,14 +1,14 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { ButtonLink } from '@/components/ui/Button';
-import { appLinks } from '@/config/appLinks';
+import { ServicePageContent } from '@/components/servicos/ServicePageContent';
 import {
   CATALOGO_ESTATICO,
   fetchCatalogo,
   findEspecialidade,
   getAllEspecialidadePaths,
 } from '@/lib/catalog';
+import { buildPageMetadata } from '@/lib/metadataHelpers';
+import { getEspecialidadeContent, servicoPath } from '@/lib/seoContent';
 
 interface PageProps {
   params: Promise<{ categoria: string; especialidade: string }>;
@@ -26,13 +26,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const catalogo = await fetchCatalogo();
   const found = findEspecialidade(catalogo, categoria, especialidade);
   if (!found) return { title: 'Serviço não encontrado' };
-  const { especialidade: esp } = found;
-  return {
+  const { categoria: cat, especialidade: esp } = found;
+  const content = getEspecialidadeContent(esp.slug, esp.nome, esp.descricao, cat.nome);
+  const path = servicoPath(cat.slug, esp.slug);
+
+  return buildPageMetadata({
     title: `${esp.nome} — encontre profissionais na sua região`,
-    description:
-      esp.descricao ??
-      `Contrate ${esp.nome.toLowerCase()} com segurança pelo ChamadoPro. Compare orçamentos e pague com proteção.`,
-  };
+    description: content.paragraphs[0].slice(0, 160),
+    path,
+  });
 }
 
 export default async function EspecialidadePage({ params }: PageProps) {
@@ -42,78 +44,31 @@ export default async function EspecialidadePage({ params }: PageProps) {
   if (!found) notFound();
 
   const { categoria, especialidade } = found;
-  const relacionadas = categoria.especialidades.filter((e) => e.slug !== especialidade.slug);
+  const content = getEspecialidadeContent(
+    especialidade.slug,
+    especialidade.nome,
+    especialidade.descricao,
+    categoria.nome
+  );
+  const path = servicoPath(categoria.slug, especialidade.slug);
 
   return (
-    <div className="bg-cp-background">
-      <section className="border-b border-cp-border bg-cp-surface">
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-          <nav className="text-sm text-cp-text-secondary">
-            <Link href="/servicos" className="hover:text-cp-accent">
-              Serviços
-            </Link>
-            <span className="mx-2">/</span>
-            <Link href={`/servicos/${categoria.slug}`} className="hover:text-cp-accent">
-              {categoria.nome}
-            </Link>
-            <span className="mx-2">/</span>
-            <span className="text-cp-text-primary">{especialidade.nome}</span>
-          </nav>
-          <h1 className="mt-6 text-3xl font-bold text-cp-text-primary sm:text-4xl">
-            {especialidade.nome} — encontre profissionais na sua região
-          </h1>
-          <p className="mt-4 max-w-3xl text-lg text-cp-text-secondary">
-            {especialidade.descricao}
-          </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <ButtonLink href={appLinks.entrarParaPedirServico()} size="lg" external>
-              Entrar e solicitar no app
-            </ButtonLink>
-            <ButtonLink href={appLinks.cadastroPrestador} variant="outline" size="lg" external>
-              Sou prestador desta área
-            </ButtonLink>
-          </div>
-          <p className="mt-4 text-sm text-cp-text-secondary">
-            Os pedidos são publicados dentro do aplicativo ChamadoPro, após login ou cadastro.
-          </p>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
-        <h2 className="text-xl font-semibold text-cp-text-primary">
-          Como contratar {especialidade.nome.toLowerCase()} pelo ChamadoPro
-        </h2>
-        <div className="mt-4 space-y-4 text-cp-text-secondary leading-relaxed">
-          <p>
-            No aplicativo ChamadoPro você descreve o que precisa — reforma, reparo, instalação ou
-            manutenção — e recebe orçamentos de prestadores que atuam na sua região. Compare
-            propostas, veja avaliações e escolha com mais segurança.
-          </p>
-          <p>
-            O pagamento fica protegido até a conclusão do serviço. Para contratar{' '}
-            {especialidade.nome.toLowerCase()}, entre no app, publique seu pedido e informe detalhes
-            como local, urgência e fotos do problema para receber propostas mais precisas.
-          </p>
-        </div>
-
-        {relacionadas.length > 0 && (
-          <div className="mt-12">
-            <h2 className="text-lg font-semibold text-cp-text-primary">Serviços relacionados</h2>
-            <ul className="mt-4 grid gap-2 sm:grid-cols-2">
-              {relacionadas.map((esp) => (
-                <li key={esp.slug}>
-                  <Link
-                    href={`/servicos/${categoria.slug}/${esp.slug}`}
-                    className="text-sm text-cp-accent hover:underline"
-                  >
-                    {esp.nome}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </section>
-    </div>
+    <ServicePageContent
+      breadcrumbs={[
+        { name: 'Serviços', path: '/servicos' },
+        { name: categoria.nome, path: `/servicos/${categoria.slug}` },
+        { name: especialidade.nome, path },
+      ]}
+      h1={`${especialidade.nome} — encontre profissionais na sua região`}
+      intro={especialidade.descricao}
+      paragraphs={content.paragraphs}
+      faq={content.faq}
+      categoria={categoria}
+      especialidade={especialidade}
+      servicePath={path}
+      serviceName={especialidade.nome}
+      serviceDescription={content.paragraphs[0]}
+      showCityLinks
+    />
   );
 }

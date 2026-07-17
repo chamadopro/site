@@ -2,16 +2,17 @@
 
 **Última atualização:** junho/2026
 
-## Escopo V1
+## Escopo atual
 
 | Tipo | Quantidade | Rota |
 |------|------------|------|
 | Hub | 1 | `/servicos` |
 | Categorias | 9 | `/servicos/[categoria]` |
 | Especialidades | 35 | `/servicos/[categoria]/[especialidade]` |
+| **Local (cidade)** | **350** | `/servicos/[categoria]/[especialidade]/[cidade]` |
 | Institucionais | 8 | home, como-funciona, para-clientes, etc. |
 
-**Total no build:** ~57 rotas.
+**Total no build:** ~407 rotas (10 cidades × 35 especialidades + base).
 
 ## Estrutura de URLs
 
@@ -19,9 +20,17 @@
 /servicos
 /servicos/construcao-reforma
 /servicos/hidraulica-gas/encanador
+/servicos/hidraulica-gas/encanador/sao-paulo
 ```
 
 Slugs alinhados a `backend/src/config/catalogoCategoriasEspecialidades.ts` (repo `social`).
+
+## Cidades Fase 1 (local SEO)
+
+Definidas em `src/lib/cidades.ts`:
+
+- São Paulo, Rio de Janeiro, Belo Horizonte, Brasília, Curitiba
+- Porto Alegre, Salvador, Recife, Fortaleza, Campinas
 
 ## Categorias Fase 1
 
@@ -35,62 +44,62 @@ Slugs alinhados a `backend/src/config/catalogoCategoriasEspecialidades.ts` (repo
 8. `mudancas-transporte` (3)
 9. `tecnologia` (3)
 
-Categoria `vitrine` do backend **não** entra no site (sem especialidades públicas).
+## Conteúdo SEO
 
-## Dados do catálogo
+- Copy por especialidade: `src/lib/seoContentData.ts` + fallback em `src/lib/seoContent.ts`
+- Copy local (cidade + especialidade): `getLocalContent()` em `src/lib/seoContent.ts`
+- Componente compartilhado: `src/components/servicos/ServicePageContent.tsx`
 
-### Runtime (ISR)
+## Metadata e structured data
 
-`fetchCatalogo()` em `src/lib/catalog.ts`:
-
-```
-GET {NEXT_PUBLIC_API_URL}/public/categorias
-revalidate: 60 segundos
-```
-
-### Fallback estático
-
-`CATALOGO_ESTATICO` no mesmo arquivo — usado se a API falhar no build.
-
-**Manutenção:** ao alterar o catálogo no backend, atualizar `CATALOGO_ESTATICO` e `generateStaticParams` até haver script de sync.
-
-## Metadata
-
-- `layout.tsx`: `metadataBase` = `https://chamadopro.com.br`
-- Categorias/especialidades: `generateMetadata()` por rota
-- Template de title: `%s | ChamadoPro`
+| Item | Implementação |
+|------|----------------|
+| Canonical + OG | `buildPageMetadata()` em `src/lib/metadataHelpers.ts` |
+| Organization | `OrganizationJsonLd` no `layout.tsx` |
+| Service + Breadcrumb + FAQ | `src/components/seo/JsonLd.tsx` nas páginas de serviço |
+| Favicon / apple-touch | `/logo.png` via `layout.tsx` `icons` |
 
 ## Sitemap e robots
 
 | Arquivo | Origem |
 |---------|--------|
-| `/sitemap.xml` | `src/app/sitemap.ts` |
+| `/sitemap.xml` | `src/app/sitemap.ts` (inclui URLs locais) |
 | `/robots.txt` | `public/robots.txt` |
 
-## SEO — pendências
+## Home como hub SEO
+
+Seções em `src/components/home/HomeSections.tsx`:
+
+- Chips populares → páginas locais
+- Como funciona (3 passos)
+- Grid de categorias
+- Principais cidades
+- Bloco prestador (azul) + CTA cliente (laranja)
+
+## Google Search Console — pós-deploy
+
+1. Acesse [Google Search Console](https://search.google.com/search-console)
+2. Adicione a propriedade `https://chamadopro.com.br`
+3. Verifique via DNS (recomendado) ou arquivo HTML no host
+4. Envie o sitemap: `https://chamadopro.com.br/sitemap.xml`
+5. Monitore semanalmente:
+   - **Desempenho** → filtrar queries com padrão `em [cidade]` ou nomes de especialidade
+   - **Páginas** → indexação das URLs `/servicos/.../[cidade]`
+   - **Core Web Vitals** após deploy em produção
+
+### Métricas locais sugeridas
+
+| Query tipo | Exemplo |
+|------------|---------|
+| Serviço + cidade | `encanador são paulo` |
+| Especialidade | `diarista`, `eletricista residencial` |
+| Marca | `chamadopro` |
+
+## Pendências (V2)
 
 | Item | Status |
 |------|--------|
-| Copy único por especialidade (150–250 palavras) | Pendente — risco de thin content hoje |
-| JSON-LD (`Organization`, `Service`, `BreadcrumbList`) | Pendente |
-| Open Graph images | Pendente |
-| `canonical` explícito por página | Pendente |
-| Páginas por cidade (V2) | Fora do escopo V1 |
-| Blog (V2) | Fora do escopo V1 |
-
-## Páginas institucionais
-
-| Rota | Propósito |
-|------|-----------|
-| `/` | Home, grid de categorias |
-| `/como-funciona` | Jornada cliente e prestador |
-| `/para-clientes` | Benefícios para quem contrata |
-| `/para-prestadores` | Benefícios para prestadores |
-| `/sobre` | Sobre a empresa |
-| `/contato` | E-mail de contato |
-| `/faq` | Perguntas frequentes |
-| `/parceiros` | Parceiros (placeholder V1) |
-
-## Google Search Console
-
-Arquivos de verificação antigos foram removidos do repo. Reconfigurar após deploy em `chamadopro.com.br`.
+| Imagem OG dedicada (1200×630) | Pendente |
+| Expandir cidades (50+) | V2 |
+| Blog / dicas | V2 |
+| Prova social na home | Quando houver dados reais |
