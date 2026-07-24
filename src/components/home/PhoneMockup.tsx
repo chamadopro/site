@@ -2,63 +2,54 @@
 
 import Image from 'next/image';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { phoneFlowConfig, phoneFlowSrc } from '@/lib/phoneFlowScreens';
+import {
+  buildPhoneFlowPlaylist,
+  phoneFlowConfig,
+  phoneFlowSrc,
+  type PhoneFlowChapter,
+} from '@/lib/phoneFlowScreens';
 import { cn } from '@/lib/cn';
 
 interface PhoneMockupProps {
   className?: string;
   compact?: boolean;
-  hideCaption?: boolean;
+  /** Moldura de aparelho ao redor das telas (desktop). */
+  deviceFrame?: boolean;
 }
 
 export function PhoneMockup({
   className,
   compact = false,
-  hideCaption = false,
+  deviceFrame = false,
 }: PhoneMockupProps) {
-  const { frames, intervalMs, slideMs, aspectRatio, defaultCaption } = phoneFlowConfig;
+  const { frames, intervalMs, tipIntervalMs, slideMs, aspectRatio } = phoneFlowConfig;
   const [slidePos, setSlidePos] = useState(0);
-  const [loadedIndices, setLoadedIndices] = useState<Set<number>>(() => new Set());
+  const [ready, setReady] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [transitionEnabled, setTransitionEnabled] = useState(true);
   const trackRef = useRef<HTMLDivElement>(null);
   const preloadStarted = useRef(false);
 
-  const availableFrames = useMemo(() => {
-    if (loadedIndices.size === 0) return [];
-    return frames
-      .map((frame, index) => ({ frame, index }))
-      .filter(({ index }) => loadedIndices.has(index));
-  }, [frames, loadedIndices]);
-
-  const stepCount = availableFrames.length;
+  const slides = useMemo(() => buildPhoneFlowPlaylist(), []);
+  const stepCount = slides.length;
   const displayPos = stepCount > 0 ? slidePos % stepCount : 0;
-  const activeFrame = availableFrames[displayPos]?.frame ?? frames[0];
+  const activeSlide = slides[displayPos];
 
-  const markLoaded = useCallback((index: number) => {
-    setLoadedIndices((prev) => {
-      if (prev.has(index)) return prev;
-      const next = new Set(prev);
-      next.add(index);
-      return next;
-    });
-  }, []);
-
-  const markFailed = useCallback((_index: number) => {
-    /* frame ausente */
+  const markLoaded = useCallback(() => {
+    setReady(true);
   }, []);
 
   useEffect(() => {
     if (preloadStarted.current) return;
     preloadStarted.current = true;
 
-    frames.forEach((frame, index) => {
+    frames.forEach((frame) => {
       const img = new window.Image();
-      img.onload = () => markLoaded(index);
-      img.onerror = () => markFailed(index);
+      img.onload = markLoaded;
+      img.onerror = markLoaded;
       img.src = phoneFlowSrc(frame.file);
     });
-  }, [frames, markLoaded, markFailed]);
+  }, [frames, markLoaded]);
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -69,19 +60,29 @@ export function PhoneMockup({
   }, []);
 
   useEffect(() => {
-    if (stepCount <= 1) return;
+    if (!ready || stepCount <= 1) return;
 
-    const id = window.setInterval(() => {
+    const dwell = activeSlide?.kind === 'tip' ? tipIntervalMs : intervalMs;
+
+    const id = window.setTimeout(() => {
       if (reducedMotion) {
         setSlidePos((p) => (p + 1) % stepCount);
         return;
       }
       setTransitionEnabled(true);
       setSlidePos((p) => p + 1);
-    }, intervalMs);
+    }, dwell);
 
-    return () => window.clearInterval(id);
-  }, [stepCount, intervalMs, reducedMotion]);
+    return () => window.clearTimeout(id);
+  }, [
+    ready,
+    stepCount,
+    intervalMs,
+    tipIntervalMs,
+    reducedMotion,
+    activeSlide?.kind,
+    displayPos,
+  ]);
 
   useEffect(() => {
     const track = trackRef.current;
@@ -108,81 +109,295 @@ export function PhoneMockup({
     }
   }, [transitionEnabled]);
 
-  const hasAnyFrame = stepCount > 0;
-  const captionLine1 = hasAnyFrame ? activeFrame.caption : defaultCaption.line1;
-  const activeStep = stepCount > 0 ? displayPos + 1 : 0;
-
   const trackSlides =
-    stepCount > 1 && !reducedMotion
-      ? [...availableFrames, availableFrames[0]]
-      : availableFrames;
+    ready && stepCount > 1 && !reducedMotion ? [...slides, slides[0]] : slides;
 
   const visualPos = reducedMotion ? displayPos : slidePos;
-  const useSlideMotion = transitionEnabled && !reducedMotion;
+  const useSlideMotion = ready && transitionEnabled && !reducedMotion;
+
+  const screens = (
+    <div className="relative w-full overflow-hidden bg-white" style={{ aspectRatio }}>
+      {!ready && <PhonePlaceholder />}
+
+      {ready && (
+        <div
+          ref={trackRef}
+          className={cn('flex h-full', useSlideMotion && 'transition-transform ease-out')}
+          style={{
+            transform: `translateX(-${visualPos * 100}%)`,
+            transitionDuration: useSlideMotion ? `${slideMs}ms` : '0ms',
+          }}
+        >
+          {trackSlides.map((slide, slideIndex) => {
+            const isActiveVisual =
+              slideIndex === visualPos || (visualPos >= stepCount && slideIndex === 0);
+
+            return (
+              <div
+                key={`${slide.id}-${slideIndex}`}
+                className="relative h-full min-w-full shrink-0"
+              >
+                {slide.kind === 'tip' ? (
+                  <FlowTipSlide
+                    chapter={slide.chapter}
+                    compact={compact}
+                    animate={isActiveVisual && !reducedMotion}
+                  />
+                ) : (
+                  <Image
+                    src={phoneFlowSrc(slide.frame.file)}
+                    alt={slide.frame.alt}
+                    fill
+                    unoptimized
+                    className="object-contain object-center"
+                    sizes="(min-width: 1280px) 310px, (min-width: 1024px) 280px, 300px"
+                    priority={slide.frameIndex === 0 && slideIndex === 0}
+                    loading={slide.frameIndex === 0 ? 'eager' : 'lazy'}
+                  />
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
 
   return (
     <div className={cn('mx-auto', className ?? 'w-[200px]')}>
-      <div className="relative w-full overflow-hidden" style={{ aspectRatio }}>
-        {!hasAnyFrame && <PhonePlaceholder />}
-
-        {hasAnyFrame && (
-          <div
-            ref={trackRef}
-            className={cn('flex h-full', useSlideMotion && 'transition-transform ease-out')}
-            style={{
-              transform: `translateX(-${visualPos * 100}%)`,
-              transitionDuration: useSlideMotion ? `${slideMs}ms` : '0ms',
-            }}
-          >
-            {trackSlides.map(({ frame, index }, slideIndex) => (
-              <div
-                key={`${frame.file}-${slideIndex}`}
-                className="relative h-full min-w-full shrink-0"
-              >
-                <Image
-                  src={phoneFlowSrc(frame.file)}
-                  alt={frame.alt}
-                  fill
-                  unoptimized
-                  className="object-contain object-center"
-                  sizes="(min-width: 1280px) 310px, (min-width: 1024px) 280px, 300px"
-                  priority={slideIndex === 0}
-                  loading={slideIndex === 0 ? 'eager' : 'lazy'}
-                  onLoad={() => markLoaded(index)}
-                  onError={() => markFailed(index)}
-                />
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {!hideCaption &&
-        (compact ? (
-          hasAnyFrame && (
-            <p className="home-meta mt-1.5 text-center" aria-live="polite">
-              {activeFrame.label}
-              {stepCount > 1 && (
-                <span className="text-gray-300">
-                  {' '}
-                  · {activeStep}/{stepCount}
-                </span>
-              )}
-            </p>
-          )
-        ) : (
-          <>
-            <p className="home-meta mt-2 text-center" aria-live="polite">
-              {captionLine1}
-            </p>
-            {hasAnyFrame && stepCount > 1 && (
-              <p className="home-meta mt-0.5 text-center">
-                {activeFrame.label} · {activeStep}/{stepCount}
-              </p>
-            )}
-          </>
-        ))}
+      {deviceFrame ? (
+        <div className="rounded-[2.4rem] bg-[#0d1824] p-[11px] shadow-[0_28px_64px_rgba(13,24,36,0.28)]">
+          <div className="overflow-hidden rounded-[1.85rem] bg-white">{screens}</div>
+        </div>
+      ) : (
+        screens
+      )}
     </div>
+  );
+}
+
+function FlowTipSlide({
+  chapter,
+  compact,
+  animate,
+}: {
+  chapter: PhoneFlowChapter;
+  compact: boolean;
+  animate: boolean;
+}) {
+  const isBlue = chapter.accent === 'blue';
+
+  return (
+    <div
+      className={cn(
+        'absolute inset-0 flex flex-col items-center justify-center overflow-hidden px-5 text-center',
+        isBlue
+          ? 'bg-[linear-gradient(165deg,#f0f6ff_0%,#ffffff_55%,#fff0eb_100%)]'
+          : 'bg-[linear-gradient(165deg,#fff0eb_0%,#ffffff_55%,#f0f6ff_100%)]',
+      )}
+      aria-live={animate ? 'polite' : 'off'}
+    >
+      {/* Orbes de fundo */}
+      <div
+        className={cn(
+          'pointer-events-none absolute -left-6 top-16 h-24 w-24 rounded-full blur-2xl',
+          isBlue ? 'bg-brand-blue/20' : 'bg-brand-orange/25',
+          animate && 'animate-flow-orb',
+        )}
+        aria-hidden
+      />
+      <div
+        className={cn(
+          'pointer-events-none absolute -right-4 bottom-20 h-28 w-28 rounded-full blur-2xl',
+          isBlue ? 'bg-brand-orange/20' : 'bg-brand-blue/20',
+          animate && 'animate-flow-orb-delay',
+        )}
+        aria-hidden
+      />
+
+      {/* Sparkles */}
+      <span
+        className={cn(
+          'pointer-events-none absolute left-7 top-14 text-lg',
+          isBlue ? 'text-brand-blue/70' : 'text-brand-orange/80',
+          animate && 'animate-flow-sparkle',
+        )}
+        aria-hidden
+      >
+        ✦
+      </span>
+      <span
+        className={cn(
+          'pointer-events-none absolute right-8 top-24 text-sm',
+          isBlue ? 'text-brand-orange/70' : 'text-brand-blue/70',
+          animate && 'animate-flow-sparkle-delay',
+        )}
+        aria-hidden
+      >
+        ✦
+      </span>
+      <span
+        className={cn(
+          'pointer-events-none absolute bottom-24 left-10 text-xs',
+          isBlue ? 'text-brand-blue/50' : 'text-brand-orange/55',
+          animate && 'animate-flow-sparkle-delay',
+        )}
+        aria-hidden
+      >
+        ✦
+      </span>
+
+      <div
+        key={animate ? `${chapter.id}-in` : chapter.id}
+        className={cn(
+          'relative z-10 flex w-full max-w-[15rem] flex-col items-center',
+          animate && 'animate-flow-bubble',
+        )}
+      >
+        <span
+          className={cn(
+            'mb-3 inline-flex items-center rounded-full px-2.5 py-1 text-[0.625rem] font-semibold uppercase tracking-[0.14em]',
+            isBlue
+              ? 'bg-brand-blue/10 text-brand-blue'
+              : 'bg-brand-orange/10 text-brand-orange',
+            animate && 'animate-flow-badge',
+          )}
+        >
+          {chapter.step} · {chapter.name}
+        </span>
+
+        <div
+          className={cn(
+            'relative w-full overflow-hidden rounded-[1.35rem] border bg-white px-4 py-4 shadow-[0_14px_36px_rgba(13,24,36,0.10)]',
+            isBlue ? 'border-brand-blue/20' : 'border-brand-orange/25',
+            animate && 'animate-flow-float',
+          )}
+        >
+          {animate && (
+            <div
+              className="pointer-events-none absolute inset-0 flow-tip-shimmer"
+              aria-hidden
+            />
+          )}
+
+          <div
+            className={cn(
+              'relative mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-full shadow-sm',
+              isBlue
+                ? 'bg-brand-blue-light text-brand-blue'
+                : 'bg-brand-orange-light text-brand-orange',
+              animate && 'animate-flow-icon',
+            )}
+            aria-hidden
+          >
+            <TipIcon chapterId={chapter.id} />
+          </div>
+
+          <p
+            className={cn(
+              'relative font-semibold leading-snug tracking-[-0.02em] text-cp-text-primary',
+              compact ? 'text-[0.9375rem]' : 'text-base',
+              animate && 'animate-flow-title',
+            )}
+          >
+            {chapter.title}
+          </p>
+          <p
+            className={cn(
+              'relative mt-2 leading-relaxed text-cp-text-secondary',
+              compact ? 'text-[0.75rem]' : 'text-[0.8125rem]',
+              animate && 'animate-flow-body',
+            )}
+          >
+            {chapter.body}
+          </p>
+        </div>
+
+        <div className="mt-3.5 flex items-center gap-1.5" aria-hidden>
+          <span
+            className={cn(
+              'h-1.5 w-1.5 rounded-full',
+              isBlue ? 'bg-brand-blue/35' : 'bg-brand-orange/35',
+            )}
+          />
+          <span
+            className={cn(
+              'h-1.5 w-1.5 rounded-full',
+              isBlue ? 'bg-brand-blue/70' : 'bg-brand-orange/70',
+              animate && 'animate-flow-chip',
+            )}
+          />
+          <span
+            className={cn(
+              'h-1.5 w-1.5 rounded-full',
+              isBlue ? 'bg-brand-blue/35' : 'bg-brand-orange/35',
+            )}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TipIcon({ chapterId }: { chapterId: PhoneFlowChapter['id'] }) {
+  if (chapterId === 'do-seu-jeito') {
+    return (
+      <svg
+        viewBox="0 0 24 24"
+        className="h-5 w-5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+      >
+        <path d="M12 3v10" strokeLinecap="round" />
+        <path d="M8 9a4 4 0 0 0 8 0" strokeLinecap="round" />
+        <path d="M5 14a7 7 0 0 0 14 0" strokeLinecap="round" />
+        <path d="M12 17v3" strokeLinecap="round" />
+      </svg>
+    );
+  }
+  if (chapterId === 'revisao') {
+    return (
+      <svg
+        viewBox="0 0 24 24"
+        className="h-5 w-5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+      >
+        <path d="M9 11l2 2 4-4" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M20 12a8 8 0 1 1-8-8" strokeLinecap="round" />
+      </svg>
+    );
+  }
+  if (chapterId === 'no-ar') {
+    return (
+      <svg
+        viewBox="0 0 24 24"
+        className="h-5 w-5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+      >
+        <path
+          d="M12 3l1.8 5.5H19l-4.4 3.2 1.7 5.3L12 14.8 7.7 17l1.7-5.3L5 8.5h5.2L12 3z"
+          strokeLinejoin="round"
+        />
+      </svg>
+    );
+  }
+
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      className="h-5 w-5"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
+      <path d="M4 8h3l1.5-2h7L17 8h3v11H4V8z" strokeLinejoin="round" />
+      <circle cx="12" cy="13" r="3.2" />
+    </svg>
   );
 }
 
@@ -192,7 +407,7 @@ function PhonePlaceholder() {
       <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-white">
         <span className="text-base text-brand-orange">+</span>
       </div>
-      <p className="home-meta">chama.ai-1 … chama.ai-6</p>
+      <p className="home-meta">Carregando fluxo…</p>
     </div>
   );
 }

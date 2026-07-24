@@ -67,15 +67,9 @@ export function HeroSection() {
                 />
               </div>
 
-              {/* Desktop: frame de aparelho completo */}
+              {/* Desktop: aparelho com bolhas internas no fluxo */}
               <div className="hidden lg:block">
-                <div className="relative w-[260px] xl:w-[290px]">
-                  <div className="rounded-[2.4rem] bg-[#0d1824] p-[11px] shadow-[0_28px_64px_rgba(13,24,36,0.28)]">
-                    <div className="overflow-hidden rounded-[1.85rem] bg-white">
-                      <PhoneMockup compact hideCaption className="w-full" />
-                    </div>
-                  </div>
-                </div>
+                <PhoneMockup deviceFrame className="w-[260px] xl:w-[290px]" />
               </div>
             </div>
           </div>
