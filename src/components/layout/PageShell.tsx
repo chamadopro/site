@@ -7,7 +7,7 @@ export const pageContainerClass =
   'mx-auto w-full max-w-6xl px-4 sm:px-6 lg:max-w-[1100px] lg:px-10';
 
 /** Padding vertical padrão do bloco de conteúdo. */
-export const pageSectionClass = 'bg-cp-background py-8 sm:py-10 lg:py-14';
+export const pageSectionClass = 'bg-cp-background py-6 sm:py-8 lg:py-10';
 
 interface PageHeroProps {
   title: string;
@@ -21,14 +21,14 @@ export function PageHero({ title, description, className }: PageHeroProps) {
       <div
         className={cn(
           pageContainerClass,
-          description ? 'py-10 sm:py-12' : 'py-8 sm:py-10 lg:py-12'
+          description ? 'py-5 sm:py-6 lg:py-7' : 'py-4 sm:py-5 lg:py-6',
         )}
       >
-        <h1 className="text-3xl font-bold tracking-[-0.02em] text-cp-text-primary sm:text-4xl">
+        <h1 className="text-2xl font-bold tracking-[-0.02em] text-cp-text-primary sm:text-3xl lg:text-[2rem]">
           {title}
         </h1>
         {description ? (
-          <p className="mt-3 max-w-3xl text-base leading-relaxed text-cp-text-secondary sm:mt-4 sm:text-lg">
+          <p className="mt-2 max-w-3xl text-sm leading-relaxed text-cp-text-secondary sm:mt-2.5 sm:text-base">
             {description}
           </p>
         ) : null}

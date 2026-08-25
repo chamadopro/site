@@ -6,7 +6,6 @@ import {
   pageContainerClass,
   pageSectionClass,
 } from '@/components/layout/PageShell';
-import { ProviderPromoCard } from '@/components/promocoes/ProviderPromoCard';
 import { appLinks } from '@/config/appLinks';
 import { buildPageMetadata } from '@/lib/metadataHelpers';
 import {
@@ -42,8 +41,6 @@ export default function ParaPrestadoresPage() {
 
       <div className={pageSectionClass}>
         <div className={pageContainerClass}>
-          <ProviderPromoCard featured className="mb-10 sm:mb-12 lg:mb-14" />
-
           <section>
             <h2 className="page-h2 text-brand-blue">
               {providerJourneyPage.workTitle}

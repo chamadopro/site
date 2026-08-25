@@ -4,6 +4,7 @@ import { OrganizationJsonLd } from '@/components/seo/JsonLd';
 import { AppDownloadSection } from '@/components/AppDownloadSection';
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
+import { ProviderPromoBanner } from '@/components/promocoes/ProviderPromoCard';
 import { ClientProviders } from '@/components/providers/ClientProviders';
 import { DEFAULT_OG_IMAGE, OG_IMAGE_VERSION, SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 import './globals.css';
@@ -73,6 +74,7 @@ export default function RootLayout({
         <ClientProviders>
           <OrganizationJsonLd />
           <Header />
+          <ProviderPromoBanner />
           <main className="flex-1">{children}</main>
           <AppDownloadSection />
           <Footer />
