@@ -1,0 +1,28 @@
+/**
+ * Promoções ativas do site institucional (só link + card; cadastro no app).
+ * Edite PROMO_CTA_URL / paths aqui quando mudar a campanha.
+ */
+
+const appUrl =
+  process.env.NEXT_PUBLIC_APP_URL?.replace(/\/+$/, '') ||
+  'https://app.chamadopro.com.br';
+
+/** URL do CTA — abre o cadastro de prestador com a campanha. */
+export const PROMO_CTA_URL =
+  `${appUrl}/cadastro-prestador/promocao?campanha=seu-trabalho-vale-premio`;
+
+export const providerPromo = {
+  id: 'seu-trabalho-vale-premio',
+  label: 'Promoção',
+  title: 'Seu Trabalho Vale Prêmio',
+  subtitle: 'Cadastre-se como prestador e concorra ao número da sorte.',
+  cta: 'Quero me cadastrar',
+  href: PROMO_CTA_URL,
+  /**
+   * Arte estática no site — copiar a capa para este path:
+   * public/promocoes/seu-trabalho-vale-premio/capa.jpg
+   * (aceita também .webp ou .png com o mesmo nome base se atualizar `imageSrc`)
+   */
+  imageSrc: '/promocoes/seu-trabalho-vale-premio/capa.jpg',
+  imageAlt: 'Promoção Seu Trabalho Vale Prêmio — ChamadoPro',
+} as const;
