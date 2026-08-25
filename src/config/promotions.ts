@@ -20,9 +20,8 @@ export const providerPromo = {
   href: PROMO_CTA_URL,
   /**
    * Arte estática no site — copiar a capa para este path:
-   * public/promocoes/seu-trabalho-vale-premio/capa.jpg
-   * (aceita também .webp ou .png com o mesmo nome base se atualizar `imageSrc`)
+   * public/promocoes/seu-trabalho-vale-premio/capa.png
    */
-  imageSrc: '/promocoes/seu-trabalho-vale-premio/capa.jpg',
+  imageSrc: '/promocoes/seu-trabalho-vale-premio/capa.png',
   imageAlt: 'Promoção Seu Trabalho Vale Prêmio — ChamadoPro',
 } as const;
