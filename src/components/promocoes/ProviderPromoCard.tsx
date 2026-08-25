@@ -30,7 +30,7 @@ export function ProviderPromoBanner({ className }: { className?: string }) {
         className,
       )}
     >
-      <div className="home-container py-1.5 sm:py-2">
+      <div className="home-container py-1 sm:py-1.5 md:py-1">
         <a
           href={href}
           target="_blank"
@@ -40,16 +40,13 @@ export function ProviderPromoBanner({ className }: { className?: string }) {
             'ring-1 ring-gray-200/90 transition-all',
             'hover:ring-brand-blue/25 hover:shadow-[0_2px_12px_rgba(24,95,165,0.08)]',
             'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/40 focus-visible:ring-offset-2',
+            /* Desktop: faixa fina, sem “caixa” pesada */
+            'md:rounded-md md:bg-gradient-to-r md:from-slate-50/80 md:via-white md:to-slate-50/80',
+            'md:ring-gray-100/80 md:hover:shadow-none',
           )}
           aria-label={`${title}. ${cta}`}
         >
-          <div
-            className={cn(
-              'relative w-full overflow-hidden bg-white',
-              /* Desktop: faixa baixa (~64–76px) */
-              'md:max-h-[64px] lg:max-h-[72px] xl:max-h-[76px]',
-            )}
-          >
+          <div className="relative w-full overflow-hidden bg-white md:flex md:items-center md:justify-center md:bg-transparent md:px-2 md:py-1.5">
             {!imageFailed ? (
               <>
                 <Image
@@ -70,8 +67,8 @@ export function ProviderPromoBanner({ className }: { className?: string }) {
                   height={464}
                   unoptimized
                   priority
-                  className="hidden h-full min-h-[64px] w-full object-cover object-center md:block lg:min-h-[72px] xl:min-h-[76px]"
-                  sizes="(min-width: 1280px) 1200px, 100vw"
+                  className="hidden h-auto max-h-[88px] w-auto max-w-full object-contain object-center md:block lg:max-h-[96px]"
+                  sizes="(min-width: 768px) 560px"
                   onError={() => setImageFailed(true)}
                 />
               </>
