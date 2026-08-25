@@ -8,7 +8,7 @@ import { cn } from '@/lib/cn';
 
 /**
  * Faixa global da promoção de prestadores (todas as páginas).
- * Desktop 5:1 e mobile empilhado — artes separadas.
+ * Desktop: fina e discreta — só a arte (já tem CTA). Mobile: arte + barra de ação.
  */
 export function ProviderPromoBanner({ className }: { className?: string }) {
   const [imageFailed, setImageFailed] = useState(false);
@@ -24,21 +24,32 @@ export function ProviderPromoBanner({ className }: { className?: string }) {
   } = providerPromo;
 
   return (
-    <section className={cn('border-b border-brand-blue-border/25 bg-white', className)}>
-      <div className="home-container py-2.5 sm:py-3">
+    <section
+      className={cn(
+        'border-b border-gray-100 bg-cp-surface-muted/60',
+        className,
+      )}
+    >
+      <div className="home-container py-1.5 sm:py-2">
         <a
           href={href}
           target="_blank"
           rel="noopener noreferrer"
           className={cn(
-            'group block overflow-hidden rounded-xl border border-brand-blue-border/35 bg-white',
-            'shadow-[0_4px_16px_rgba(13,24,36,0.05)] transition-shadow',
-            'hover:border-brand-blue/30 hover:shadow-[0_8px_22px_rgba(24,95,165,0.10)]',
+            'group block overflow-hidden rounded-lg bg-white',
+            'ring-1 ring-gray-200/90 transition-all',
+            'hover:ring-brand-blue/25 hover:shadow-[0_2px_12px_rgba(24,95,165,0.08)]',
             'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/40 focus-visible:ring-offset-2',
           )}
           aria-label={`${title}. ${cta}`}
         >
-          <div className="relative w-full overflow-hidden bg-white">
+          <div
+            className={cn(
+              'relative w-full overflow-hidden bg-white',
+              /* Desktop: faixa baixa (~64–76px) */
+              'md:max-h-[64px] lg:max-h-[72px] xl:max-h-[76px]',
+            )}
+          >
             {!imageFailed ? (
               <>
                 <Image
@@ -59,46 +70,34 @@ export function ProviderPromoBanner({ className }: { className?: string }) {
                   height={464}
                   unoptimized
                   priority
-                  className="hidden h-auto w-full object-contain md:block"
+                  className="hidden h-full min-h-[64px] w-full object-cover object-center md:block lg:min-h-[72px] xl:min-h-[76px]"
                   sizes="(min-width: 1280px) 1200px, 100vw"
                   onError={() => setImageFailed(true)}
                 />
               </>
             ) : (
-              <div className="flex min-h-[100px] items-center justify-center gap-3 bg-[linear-gradient(145deg,#185fa5_0%,#134a82_100%)] px-5 py-6">
-                <Gift className="h-6 w-6 shrink-0 text-white/90" aria-hidden />
-                <div className="min-w-0 text-left">
-                  <p className="text-sm font-semibold text-white">{title}</p>
-                  <p className="mt-0.5 text-xs text-white/75">{subtitle}</p>
-                </div>
+              <div className="flex min-h-[64px] items-center justify-center gap-2 bg-brand-blue px-4 py-3 md:min-h-0 md:py-2">
+                <Gift className="h-5 w-5 shrink-0 text-white/90" aria-hidden />
+                <p className="text-xs font-semibold text-white sm:text-sm">{title}</p>
               </div>
             )}
           </div>
 
-          <div className="flex items-center justify-between gap-3 border-t border-brand-blue-border/25 px-3 py-2 sm:px-4 sm:py-2.5">
+          {/* Mobile: barra de ação — desktop a arte já é suficiente */}
+          <div className="flex items-center justify-between gap-2 border-t border-gray-100 px-3 py-2 md:hidden">
             <div className="min-w-0">
-              <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-                <span className="inline-flex rounded-full bg-brand-blue-light px-2 py-0.5 text-[0.625rem] font-semibold uppercase tracking-[0.1em] text-brand-blue">
+              <div className="flex items-center gap-1.5">
+                <span className="inline-flex rounded-full bg-brand-blue-light px-1.5 py-0.5 text-[0.5625rem] font-semibold uppercase tracking-[0.08em] text-brand-blue">
                   {label}
                 </span>
-                <p className="truncate text-xs font-semibold text-cp-text-primary sm:text-sm">
+                <p className="truncate text-xs font-semibold text-cp-text-primary">
                   {title}
                 </p>
               </div>
-              <p className="mt-0.5 hidden text-[0.75rem] text-cp-text-secondary sm:block">
-                {subtitle}
-              </p>
             </div>
-
-            <span
-              className={cn(
-                'inline-flex shrink-0 items-center gap-1.5 rounded-full bg-brand-blue px-3 py-1.5',
-                'text-xs font-semibold text-white transition-colors group-hover:bg-[#134a82]',
-                'sm:gap-2 sm:px-4 sm:py-2 sm:text-sm',
-              )}
-            >
+            <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-brand-blue px-2.5 py-1.5 text-[0.6875rem] font-semibold text-white">
               {cta}
-              <ArrowRight size={14} strokeWidth={2.5} aria-hidden />
+              <ArrowRight size={12} strokeWidth={2.5} aria-hidden />
             </span>
           </div>
         </a>
