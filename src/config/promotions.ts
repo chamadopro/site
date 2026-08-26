@@ -18,9 +18,9 @@ export const providerPromo = {
   subtitle: 'Cadastre-se como prestador e concorra ao número da sorte.',
   cta: 'Quero me cadastrar',
   href: PROMO_CTA_URL,
-  /** Arte desktop (faixa larga). Ideal: 1600×320 (5:1) ou similar. */
-  imageDesktopSrc: '/promocoes/seu-trabalho-vale-premio/capa-desktop.jpeg',
-  /** Arte mobile (mais compacta / empilhada). */
-  imageMobileSrc: '/promocoes/seu-trabalho-vale-premio/capa-mobile.jpeg',
+  /** Arte desktop panorâmica (~7.4:1). Query força cache nova. */
+  imageDesktopSrc: '/promocoes/seu-trabalho-vale-premio/capa-desktop.jpeg?v=3',
+  /** Arte mobile compacta. */
+  imageMobileSrc: '/promocoes/seu-trabalho-vale-premio/capa-mobile.jpeg?v=3',
   imageAlt: 'Promoção Seu Trabalho Vale Prêmio — ChamadoPro',
 } as const;
