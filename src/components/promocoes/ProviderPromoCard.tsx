@@ -11,8 +11,8 @@ const DESKTOP = { w: 746, h: 101 } as const;
 const MOBILE = { w: 388, h: 122 } as const;
 
 /**
- * Faixa da promoção — imagem na proporção/altura original, centralizada.
- * Não estica para a largura do container da página.
+ * Faixa da promoção — imagem na proporção/altura original + CTA na mesma linha.
+ * Toda a faixa é clicável; o botão reforça a ação.
  */
 export function ProviderPromoBanner({ className }: { className?: string }) {
   const [imageFailed, setImageFailed] = useState(false);
@@ -44,8 +44,8 @@ export function ProviderPromoBanner({ className }: { className?: string }) {
         )}
         aria-label={`${title}. ${cta}`}
       >
-        {/* Desktop: altura original da arte, largura automática, centralizada */}
-        <div className="hidden justify-center md:flex">
+        {/* Desktop: imagem (tamanho original) + botão na mesma linha */}
+        <div className="hidden items-center justify-center gap-4 px-4 md:flex lg:gap-5">
           {!imageFailed ? (
             <Image
               src={imageDesktopSrc}
@@ -54,28 +54,33 @@ export function ProviderPromoBanner({ className }: { className?: string }) {
               height={DESKTOP.h}
               unoptimized
               priority
-              className="h-[101px] w-auto max-w-none object-contain transition-opacity group-hover:opacity-95"
+              className="h-[101px] w-auto max-w-none shrink-0 object-contain transition-opacity group-hover:opacity-95"
               style={{ height: DESKTOP.h, width: 'auto' }}
               onError={() => setImageFailed(true)}
             />
           ) : (
-            <div className="mx-4 flex w-full max-w-3xl items-center justify-between gap-4 rounded-xl border border-cp-border/80 bg-white px-5 py-3">
-              <div className="flex min-w-0 items-center gap-3">
-                <Gift className="h-4 w-4 text-brand-blue" aria-hidden />
-                <div className="min-w-0">
-                  <p className="text-sm font-bold text-cp-text-primary">{title}</p>
-                  <p className="truncate text-xs text-cp-text-secondary">{subtitle}</p>
-                </div>
+            <div className="flex min-w-0 max-w-xl items-center gap-3 rounded-xl border border-cp-border/80 bg-white px-5 py-3">
+              <Gift className="h-4 w-4 shrink-0 text-brand-blue" aria-hidden />
+              <div className="min-w-0">
+                <p className="text-sm font-bold text-cp-text-primary">{title}</p>
+                <p className="truncate text-xs text-cp-text-secondary">{subtitle}</p>
               </div>
-              <span className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-brand-blue px-3.5 py-2 text-xs font-semibold text-white">
-                {cta}
-                <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.5} aria-hidden />
-              </span>
             </div>
           )}
+
+          <span
+            className={cn(
+              'inline-flex h-11 shrink-0 items-center gap-2 rounded-lg bg-brand-blue px-5 text-sm font-semibold text-white',
+              'shadow-sm transition-[background-color,transform] duration-200',
+              'group-hover:bg-[var(--cp-brand-blue-hover)] group-hover:translate-x-0.5',
+            )}
+          >
+            {cta}
+            <ArrowRight className="h-4 w-4" strokeWidth={2.5} aria-hidden />
+          </span>
         </div>
 
-        {/* Mobile: altura original da arte, centralizada; CTA abaixo */}
+        {/* Mobile: imagem + CTA abaixo */}
         <div className="md:hidden">
           {!imageFailed ? (
             <div className="flex justify-center px-2">

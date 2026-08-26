@@ -16,7 +16,7 @@ export const providerPromo = {
   label: 'Promoção',
   title: 'Seu Trabalho Vale Prêmio',
   subtitle: 'Cadastre-se como prestador e concorra ao número da sorte.',
-  cta: 'Quero me cadastrar',
+  cta: 'Cadastrar Agora',
   href: PROMO_CTA_URL,
   /** Arte desktop panorâmica (~7.4:1). Query força cache nova. */
   imageDesktopSrc: '/promocoes/seu-trabalho-vale-premio/capa-desktop.jpeg?v=3',
