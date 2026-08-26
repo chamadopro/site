@@ -1,22 +1,20 @@
 'use client';
 
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
 import { ArrowRight, Gift } from 'lucide-react';
 import { useState } from 'react';
-import { pageContainerClass } from '@/components/layout/PageShell';
 import { providerPromo } from '@/config/promotions';
 import { cn } from '@/lib/cn';
 
+/** Dimensões reais das artes (não forçar largura da página). */
+const DESKTOP = { w: 746, h: 101 } as const;
+const MOBILE = { w: 388, h: 122 } as const;
+
 /**
- * Faixa global da promoção de prestadores.
- * Desktop: arte panorâmica completa (object-contain, sem crop).
- * Mobile: arte compacta + barra de ação.
- * Home usa home-container; páginas internas usam pageContainerClass.
+ * Faixa da promoção — imagem na proporção/altura original, centralizada.
+ * Não estica para a largura do container da página.
  */
 export function ProviderPromoBanner({ className }: { className?: string }) {
-  const pathname = usePathname();
-  const isHome = pathname === '/';
   const [imageFailed, setImageFailed] = useState(false);
   const {
     label,
@@ -31,101 +29,86 @@ export function ProviderPromoBanner({ className }: { className?: string }) {
 
   return (
     <section
-      className={cn('border-b border-cp-border/50 bg-cp-surface', className)}
+      className={cn(
+        'border-b border-cp-border/50 bg-cp-surface',
+        className,
+      )}
     >
-      <div
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
         className={cn(
-          isHome ? 'home-container' : pageContainerClass,
-          'py-1.5 sm:py-2',
+          'group block py-2',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/35 focus-visible:ring-offset-2',
         )}
+        aria-label={`${title}. ${cta}`}
       >
-        <a
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={cn(
-            'group block',
-            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/35 focus-visible:ring-offset-2',
-          )}
-          aria-label={`${title}. ${cta}`}
-        >
-          {/* Desktop: arte panorâmica inteira */}
-          <div className="relative hidden md:block">
-            {!imageFailed ? (
-              <Image
-                src={imageDesktopSrc}
-                alt={imageAlt}
-                width={746}
-                height={101}
-                unoptimized
-                priority
-                className={cn(
-                  'h-auto w-full object-contain object-center',
-                  'shadow-[0_1px_0_rgba(15,23,42,0.04)] ring-1 ring-cp-border/60',
-                  'transition-[box-shadow,ring-color] duration-200',
-                  'group-hover:shadow-[0_4px_18px_rgba(24,95,165,0.08)] group-hover:ring-brand-blue-border',
-                )}
-                sizes={
-                  isHome
-                    ? '(min-width: 1280px) 1280px, 100vw'
-                    : '(min-width: 1024px) 1100px, 100vw'
-                }
-                onError={() => setImageFailed(true)}
-              />
-            ) : (
-              <div className="flex items-center justify-between gap-4 rounded-xl border border-cp-border/80 bg-white px-5 py-3">
-                <div className="flex min-w-0 items-center gap-3">
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-blue-light text-brand-blue">
-                    <Gift className="h-4 w-4" strokeWidth={2.25} aria-hidden />
-                  </span>
-                  <div className="min-w-0">
-                    <p className="text-sm font-bold text-cp-text-primary">{title}</p>
-                    <p className="truncate text-xs text-cp-text-secondary">{subtitle}</p>
-                  </div>
+        {/* Desktop: altura original da arte, largura automática, centralizada */}
+        <div className="hidden justify-center md:flex">
+          {!imageFailed ? (
+            <Image
+              src={imageDesktopSrc}
+              alt={imageAlt}
+              width={DESKTOP.w}
+              height={DESKTOP.h}
+              unoptimized
+              priority
+              className="h-[101px] w-auto max-w-none object-contain transition-opacity group-hover:opacity-95"
+              style={{ height: DESKTOP.h, width: 'auto' }}
+              onError={() => setImageFailed(true)}
+            />
+          ) : (
+            <div className="mx-4 flex w-full max-w-3xl items-center justify-between gap-4 rounded-xl border border-cp-border/80 bg-white px-5 py-3">
+              <div className="flex min-w-0 items-center gap-3">
+                <Gift className="h-4 w-4 text-brand-blue" aria-hidden />
+                <div className="min-w-0">
+                  <p className="text-sm font-bold text-cp-text-primary">{title}</p>
+                  <p className="truncate text-xs text-cp-text-secondary">{subtitle}</p>
                 </div>
-                <span className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-brand-blue px-3.5 py-2 text-xs font-semibold text-white lg:text-sm">
-                  {cta}
-                  <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.5} aria-hidden />
-                </span>
               </div>
-            )}
-          </div>
-
-          {/* Mobile: arte + CTA */}
-          <div className="overflow-hidden rounded-xl border border-cp-border/70 bg-white md:hidden">
-            {!imageFailed ? (
-              <div className="relative bg-white">
-                <Image
-                  src={imageMobileSrc}
-                  alt={imageAlt}
-                  width={388}
-                  height={122}
-                  unoptimized
-                  priority
-                  className="h-auto w-full object-contain"
-                  sizes="100vw"
-                  onError={() => setImageFailed(true)}
-                />
-              </div>
-            ) : (
-              <div className="flex items-center justify-center gap-2 bg-brand-blue px-4 py-4">
-                <Gift className="h-5 w-5 shrink-0 text-white/90" aria-hidden />
-                <p className="text-sm font-semibold text-white">{title}</p>
-              </div>
-            )}
-
-            <div className="flex items-center justify-between gap-2 border-t border-cp-border/60 px-3 py-2.5">
-              <span className="inline-flex rounded-full bg-brand-blue-light px-1.5 py-0.5 text-[0.5625rem] font-semibold uppercase tracking-[0.08em] text-brand-blue">
-                {label}
-              </span>
-              <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-brand-blue px-2.5 py-1.5 text-[0.6875rem] font-semibold text-white">
+              <span className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-brand-blue px-3.5 py-2 text-xs font-semibold text-white">
                 {cta}
-                <ArrowRight size={12} strokeWidth={2.5} aria-hidden />
+                <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.5} aria-hidden />
               </span>
             </div>
+          )}
+        </div>
+
+        {/* Mobile: altura original da arte, centralizada; CTA abaixo */}
+        <div className="md:hidden">
+          {!imageFailed ? (
+            <div className="flex justify-center px-2">
+              <Image
+                src={imageMobileSrc}
+                alt={imageAlt}
+                width={MOBILE.w}
+                height={MOBILE.h}
+                unoptimized
+                priority
+                className="h-[122px] w-auto max-w-full object-contain"
+                style={{ height: MOBILE.h, width: 'auto', maxWidth: '100%' }}
+                onError={() => setImageFailed(true)}
+              />
+            </div>
+          ) : (
+            <div className="flex items-center justify-center gap-2 bg-brand-blue px-4 py-4">
+              <Gift className="h-5 w-5 shrink-0 text-white/90" aria-hidden />
+              <p className="text-sm font-semibold text-white">{title}</p>
+            </div>
+          )}
+
+          <div className="mx-4 mt-2 flex items-center justify-between gap-2 rounded-lg border border-cp-border/60 bg-white px-3 py-2.5">
+            <span className="inline-flex rounded-full bg-brand-blue-light px-1.5 py-0.5 text-[0.5625rem] font-semibold uppercase tracking-[0.08em] text-brand-blue">
+              {label}
+            </span>
+            <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-brand-blue px-2.5 py-1.5 text-[0.6875rem] font-semibold text-white">
+              {cta}
+              <ArrowRight size={12} strokeWidth={2.5} aria-hidden />
+            </span>
           </div>
-        </a>
-      </div>
+        </div>
+      </a>
     </section>
   );
 }
