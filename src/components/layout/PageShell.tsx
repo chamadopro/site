@@ -21,7 +21,7 @@ export function PageHero({ title, description, className }: PageHeroProps) {
       <div
         className={cn(
           pageContainerClass,
-          description ? 'py-5 sm:py-6 lg:py-7' : 'py-4 sm:py-5 lg:py-6',
+          description ? 'py-4 sm:py-5 lg:py-6' : 'py-3.5 sm:py-4 lg:py-5',
         )}
       >
         <h1 className="text-2xl font-bold tracking-[-0.02em] text-cp-text-primary sm:text-3xl lg:text-[2rem]">
