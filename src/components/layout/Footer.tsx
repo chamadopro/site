@@ -25,6 +25,15 @@ type FooterLink = {
 };
 
 const footerLinks = {
+  servicos: [
+    { href: '/servicos/eletricista-residencial', label: 'Eletricista' },
+    { href: '/servicos/encanador', label: 'Encanador' },
+    { href: '/servicos/pedreiro', label: 'Pedreiro' },
+    { href: '/servicos/pintor-residencial', label: 'Pintor' },
+    { href: '/servicos/diarista', label: 'Diarista' },
+    { href: '/servicos/montador-moveis', label: 'Montador de Móveis' },
+    { href: '/servicos', label: 'Todos os Serviços →', audience: 'client' },
+  ] satisfies FooterLink[],
   produto: [
     { href: '/servicos', label: 'Serviços', audience: 'client' },
     { href: '/como-funciona', label: 'Como funciona' },
@@ -33,6 +42,7 @@ const footerLinks = {
   empresa: [
     { href: '/sobre', label: 'Sobre' },
     { href: '/contato', label: 'Contato' },
+    { href: '/parceiros', label: 'Parceiros' },
   ] satisfies FooterLink[],
   legal: [
     { href: appLinks.politicaPrivacidade, label: 'Privacidade', external: true },
@@ -114,7 +124,8 @@ export function Footer() {
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-6 sm:gap-8 lg:flex lg:gap-14 xl:gap-20">
+          <div className="grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-8 lg:flex lg:gap-14 xl:gap-20">
+            <FooterColumn title="Serviços" links={footerLinks.servicos} />
             <FooterColumn title="Produto" links={footerLinks.produto} />
             <FooterColumn title="Empresa" links={footerLinks.empresa} />
             <FooterColumn title="Legal" links={footerLinks.legal} />

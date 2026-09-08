@@ -62,24 +62,24 @@ export const homeFlowSteps = [
 
 export const metadataCopy = {
   home: {
-    title: 'Início',
+    title: 'Encontre Profissionais e Receba Orçamentos Seguros',
     description:
       'ChamadoPro — a rede da sua região para resolver serviços. Publique o que precisa, receba orçamentos e indicações perto de você.',
   },
   paraClientes: {
-    title: 'Para clientes',
+    title: 'Contrate Serviços com Segurança e Pagamento Protegido',
     description:
-      'Publique seu pedido na comunidade ChamadoPro, receba indicações, compare orçamentos e contrate com pagamento protegido.',
+      'Publique seu pedido gratuitamente, receba orçamentos de profissionais avaliados da sua região e pague com custódia segura até a conclusão.',
   },
   paraPrestadores: {
-    title: 'Para prestadores',
+    title: 'Cadastre-se como Prestador de Serviços e Receba Pedidos',
     description:
-      'Receba oportunidades na sua região, envie orçamentos e receba pela plataforma ChamadoPro.',
+      'Encontre clientes na sua cidade, envie propostas para serviços compatíveis com sua especialidade e receba com pagamento garantido.',
   },
   comoFunciona: {
-    title: 'Como funciona',
+    title: 'Como Funciona o ChamadoPro — Do Pedido ao Pagamento Protegido',
     description:
-      'Entenda a jornada do cliente e do prestador na comunidade ChamadoPro: publicação, orçamentos, pagamento seguro e reputação.',
+      'Entenda o passo a passo para solicitar orçamentos, comparar profissionais, aprovar serviços e transacionar com proteção total no ChamadoPro.',
   },
 } as const;
 

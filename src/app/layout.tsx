@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { OrganizationJsonLd } from '@/components/seo/JsonLd';
+import { OrganizationJsonLd, WebSiteJsonLd } from '@/components/seo/JsonLd';
 import { AppDownloadSection } from '@/components/AppDownloadSection';
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
@@ -24,10 +24,21 @@ const shareImage = `${DEFAULT_OG_IMAGE}?v=${OG_IMAGE_VERSION}`;
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'ChamadoPro — Do chamado ao orçamento em minutos',
+    default: 'ChamadoPro — Encontre Profissionais e Receba Orçamentos',
     template: '%s | ChamadoPro',
   },
   description: defaultDescription,
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   alternates: { canonical: SITE_URL },
   icons: {
     icon: [
@@ -73,6 +84,7 @@ export default function RootLayout({
       <body className="flex min-h-full flex-col font-sans antialiased">
         <ClientProviders>
           <OrganizationJsonLd />
+          <WebSiteJsonLd />
           <Header />
           <ProviderPromoBanner />
           <main className="flex-1">{children}</main>

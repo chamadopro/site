@@ -1,13 +1,13 @@
-import { servicoPath } from '@/lib/seoContent';
+import { localServicoPath, servicoPath } from '@/lib/seoContent';
 
-/** Caminho de serviço conforme localização escolhida (cidade ou Brasil). */
+/** Caminho amigável de serviço conforme localização escolhida (cidade ou nacional). */
 export function servicePathForLocation(
   categoria: string,
   especialidade: string,
   cidadeSlug: string | null | undefined
 ): string {
   if (cidadeSlug) {
-    return `/servicos/${categoria}/${especialidade}/${cidadeSlug}`;
+    return localServicoPath(categoria, especialidade, cidadeSlug);
   }
   return servicoPath(categoria, especialidade);
 }

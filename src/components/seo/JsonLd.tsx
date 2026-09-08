@@ -12,12 +12,34 @@ export function OrganizationJsonLd() {
     name: SITE_NAME,
     url: SITE_URL,
     logo: absoluteUrl('/logo.png'),
+    description:
+      'Plataforma que conecta clientes que precisam de serviços a profissionais autônomos com orçamentos e pagamento protegido.',
     contactPoint: {
       '@type': 'ContactPoint',
+      telephone: '+55-11-92614-2121',
       email: 'contato@chamadopro.com.br',
       contactType: 'customer service',
-      availableLanguage: 'Portuguese',
+      availableLanguage: ['Portuguese'],
     },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
+}
+
+export function WebSiteJsonLd() {
+  const data = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: SITE_NAME,
+    url: SITE_URL,
+    description:
+      'Encontre profissionais qualificados e receba orçamentos para reformas, elétrica, hidráulica, climatização, limpeza e mais com pagamento protegido.',
+    inLanguage: 'pt-BR',
   };
 
   return (
@@ -96,6 +118,8 @@ interface FaqItem {
 }
 
 export function FaqJsonLd({ items }: { items: FaqItem[] }) {
+  if (!items || items.length === 0) return null;
+
   const data = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',

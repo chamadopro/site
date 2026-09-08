@@ -3,8 +3,9 @@ import { siteContact } from '@/config/appLinks';
 import { buildPageMetadata } from '@/lib/metadataHelpers';
 
 export const metadata = buildPageMetadata({
-  title: 'Parceiros',
-  description: 'Conheça parceiros do ChamadoPro e oportunidades de parceria comercial.',
+  title: 'Parcerias Comerciais e Ecossistema — ChamadoPro',
+  description:
+    'Oportunidades de parcerias com o ChamadoPro para empresas, prestadores e canais de distribuição de serviços.',
   path: '/parceiros',
 });
 

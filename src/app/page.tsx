@@ -6,10 +6,10 @@ import { HowItWorksSection } from '@/components/home/HowItWorksSection';
 import { SpecialtiesSection } from '@/components/home/SpecialtiesSection';
 
 export const metadata = buildPageMetadata({
-  title: 'Início',
-  ogTitle: 'ChamadoPro',
+  title: 'ChamadoPro — Encontre Profissionais e Receba Orçamentos',
+  ogTitle: 'ChamadoPro | Encontre Profissionais e Receba Orçamentos',
   description:
-    'Pare de perder tempo procurando indicações. Fale o serviço que precisa e o ChamadoPro cuida do resto — com pagamento protegido.',
+    'Precisa de reformas, eletricista, encanador, pintura ou limpeza? Publique seu pedido gratuitamente no ChamadoPro e receba orçamentos de profissionais da sua região com pagamento protegido.',
   path: '/',
 });
 

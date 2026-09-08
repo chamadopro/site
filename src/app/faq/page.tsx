@@ -1,10 +1,12 @@
 import { ContentSection, CtaBlock, PageHero } from '@/components/layout/PageShell';
+import { FaqJsonLd } from '@/components/seo/JsonLd';
 import { appLinks } from '@/config/appLinks';
 import { buildPageMetadata } from '@/lib/metadataHelpers';
 
 export const metadata = buildPageMetadata({
-  title: 'FAQ',
-  description: 'Perguntas frequentes sobre pagamento, taxas, cadastro e suporte no ChamadoPro.',
+  title: 'Dúvidas Frequentes — Pagamento Seguro, Orçamentos e Cadastro',
+  description:
+    'Tire dúvidas sobre solicitação de serviços, prazos, pagamento protegido em custódia, taxas e cadastro de prestadores no ChamadoPro.',
   path: '/faq',
 });
 
@@ -38,6 +40,7 @@ const faqs = [
 export default function FaqPage() {
   return (
     <>
+      <FaqJsonLd items={faqs.map((f) => ({ question: f.q, answer: f.a }))} />
       <PageHero
         title="Perguntas frequentes"
         description="Respostas rápidas sobre como usar o ChamadoPro como cliente ou prestador."

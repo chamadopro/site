@@ -6,7 +6,6 @@ import { appLinks } from '@/config/appLinks';
 import { audienceClasses } from '@/lib/audienceColors';
 import type { CatalogCategoria, CatalogEspecialidade } from '@/lib/catalog';
 import type { Cidade } from '@/lib/cidades';
-import { CIDADES_FASE_1 } from '@/lib/cidades';
 import type { FaqItem } from '@/lib/seoContent';
 import { localServicoPath, servicoPath } from '@/lib/seoContent';
 import { cn } from '@/lib/cn';
@@ -46,12 +45,10 @@ export function ServicePageContent({
   serviceDescription,
   areaServed,
   cidade,
-  showCityLinks = false,
   showRelatedSpecialties = true,
 }: ServicePageContentProps) {
   const relacionadas = categoria.especialidades.filter((e) => e.slug !== especialidade.slug);
   const client = audienceClasses.client;
-  const provider = audienceClasses.provider;
 
   return (
     <>
@@ -139,49 +136,23 @@ export function ServicePageContent({
               </div>
             )}
 
-            {showCityLinks && !cidade && (
-              <div className="mt-10 sm:mt-12">
+            {!cidade ? (
+              <div className="mt-10 sm:mt-12 rounded-2xl border border-cp-border/80 bg-cp-surface p-5 sm:p-6">
                 <h2 className="page-h2 text-cp-text-primary">
-                  {especialidade.nome} por cidade
+                  Atendimento em todo o Brasil
                 </h2>
-                <ul className="mt-4 grid gap-2 sm:grid-cols-2">
-                  {CIDADES_FASE_1.map((c) => (
-                    <li key={c.slug}>
-                      <Link
-                        href={localServicoPath(categoria.slug, especialidade.slug, c.slug)}
-                        className={cn('text-sm hover:underline', client.text)}
-                      >
-                        {especialidade.nome} em {c.nome}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+                <p className="page-body mt-2">
+                  O ChamadoPro conecta clientes e profissionais autônomos em qualquer cidade do país. Ao publicar seu chamado no aplicativo, informe sua localidade para receber orçamentos de quem atende seu bairro ou região com pagamento protegido em custódia.
+                </p>
               </div>
-            )}
-
-            {cidade && (
-              <div className="mt-10 sm:mt-12">
-                <h2 className="page-h2 text-cp-text-primary">
-                  {especialidade.nome} em outras cidades
-                </h2>
-                <ul className="mt-4 grid gap-2 sm:grid-cols-2">
-                  {CIDADES_FASE_1.filter((c) => c.slug !== cidade.slug).map((c) => (
-                    <li key={c.slug}>
-                      <Link
-                        href={localServicoPath(categoria.slug, especialidade.slug, c.slug)}
-                        className={cn('text-sm hover:underline', client.text)}
-                      >
-                        {c.nome}, {c.uf}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-                <p className="mt-4 text-sm">
+            ) : (
+              <div className="mt-10 sm:mt-12 rounded-2xl border border-cp-border/80 bg-cp-surface p-5 sm:p-6">
+                <p className="text-sm">
                   <Link
-                    href={servicoPath(categoria.slug, especialidade.slug)}
-                    className={cn('hover:underline', provider.text)}
+                    href={servicoPath(especialidade.slug)}
+                    className={cn('font-semibold hover:underline', client.text)}
                   >
-                    Ver página nacional de {especialidade.nome}
+                    ← Ver página principal de {especialidade.nome}
                   </Link>
                 </p>
               </div>

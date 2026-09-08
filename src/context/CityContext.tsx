@@ -88,19 +88,21 @@ export function CityProvider({ children }: { children: ReactNode }) {
     const stored = readStoredLocation();
 
     if (stored?.mode === 'brasil') {
-      applyBrasil(stored.source);
+      queueMicrotask(() => applyBrasil(stored.source));
       return;
     }
 
     if (stored?.mode === 'city') {
       const saved = cidadeBySlug(stored.slug);
       if (saved) {
-        applyCity(saved, stored.source);
+        queueMicrotask(() => applyCity(saved, stored.source));
         return;
       }
     }
 
-    void refreshFromGps();
+    queueMicrotask(() => {
+      void refreshFromGps();
+    });
     // Apenas na montagem inicial
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -3,8 +3,9 @@ import { siteContact } from '@/config/appLinks';
 import { buildPageMetadata } from '@/lib/metadataHelpers';
 
 export const metadata = buildPageMetadata({
-  title: 'Contato',
-  description: 'Fale com o time ChamadoPro por e-mail.',
+  title: 'Contato e Atendimento Oficial — ChamadoPro',
+  description:
+    'Entre em contato com a equipe do ChamadoPro para suporte, dúvidas sobre a plataforma, sugestões ou parcerias comerciais.',
   path: '/contato',
 });
 

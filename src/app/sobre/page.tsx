@@ -2,9 +2,9 @@ import { ContentSection, PageHero } from '@/components/layout/PageShell';
 import { buildPageMetadata } from '@/lib/metadataHelpers';
 
 export const metadata = buildPageMetadata({
-  title: 'Sobre',
+  title: 'Sobre o ChamadoPro — Plataforma Segura de Serviços Locais',
   description:
-    'Conheça o ChamadoPro: marketplace de serviços que conecta clientes e prestadores com transparência e segurança.',
+    'Conheça a história e o propósito do ChamadoPro: conectar clientes e prestadores de serviços autônomos com transparência, qualidade e pagamento protegido.',
   path: '/sobre',
 });
 

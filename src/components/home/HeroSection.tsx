@@ -14,7 +14,7 @@ export function HeroSection() {
         <div className="grid items-center gap-8 py-8 sm:gap-10 sm:py-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-10 lg:py-12 xl:gap-12 xl:py-14">
           <div className="relative z-10 min-w-0">
             <h1 className="home-hero-title">
-              Pare de perder tempo
+              Pare de perder tempo{' '}
               <br />
               procurando indicações.
             </h1>

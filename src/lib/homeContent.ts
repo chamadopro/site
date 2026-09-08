@@ -8,7 +8,7 @@ export const homeCtas = {
 
 export const homeHero = {
   headline: 'Pare de perder tempo procurando indicações.',
-  lead: 'Basta falar o serviço que precisa. O ChamadoPro cuida do resto.',
+  lead: 'Basta falar o serviço que precisa. O ChamadoPro conecta você a profissionais qualificados da sua região com orçamentos gratuitos e pagamento protegido.',
 } as const;
 
 export const homeHowItWorks = {
@@ -79,11 +79,27 @@ export const homeSpecialtyTags = {
     'Pedreiro',
     'Pintor',
     'Diarista',
-    'Jardinagem',
+    'Montador de Móveis',
     'Ar-condicionado',
     'Chaveiro',
+    'Marceneiro',
+    'Jardinagem',
     'Informática',
     '+200 especialidades',
+  ],
+  items: [
+    { label: 'Eletricista', href: '/servicos/eletricista-residencial' },
+    { label: 'Encanador', href: '/servicos/encanador' },
+    { label: 'Pedreiro', href: '/servicos/pedreiro' },
+    { label: 'Pintor', href: '/servicos/pintor-residencial' },
+    { label: 'Diarista', href: '/servicos/diarista' },
+    { label: 'Montador de Móveis', href: '/servicos/montador-moveis' },
+    { label: 'Ar-condicionado', href: '/servicos/instalador-ar-condicionado' },
+    { label: 'Chaveiro', href: '/servicos/chaveiro' },
+    { label: 'Marceneiro', href: '/servicos/marceneiro' },
+    { label: 'Jardinagem', href: '/servicos/jardineiro' },
+    { label: 'Informática', href: '/servicos/tecnico-informatica' },
+    { label: '+200 especialidades', href: '/servicos' },
   ],
   catalogLink: 'Ver catálogo completo',
 } as const;

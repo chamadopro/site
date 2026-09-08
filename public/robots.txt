@@ -1,4 +1,0 @@
-uuUUser-agent: *
-Allow: /
-
-Sitemap: https://chamadopro.com.br/sitemap.xml
