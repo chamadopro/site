@@ -1,6 +1,6 @@
 # Arquitetura — Site vs aplicativo
 
-**Última atualização:** junho/2026
+**Última atualização:** setembro/2026
 
 ## Visão geral
 
@@ -27,12 +27,20 @@ flowchart LR
   AppNext --> api
 ```
 
-## Domínios
+## Separação SEO (site × app)
 
-| Domínio | Repositório | Função |
-|---------|-------------|--------|
-| `chamadopro.com.br` | `chamadopro/site` | Institucional, catálogo SEO, conversão para o app |
-| `app.chamadopro.com.br` | `chamadopro/social` | Marketplace, admin, fluxos transacionais |
+| Propriedade | Papel |
+|-------------|--------|
+| `chamadopro.com.br` | SEO público (serviços, conteúdo, conversão) |
+| `app.chamadopro.com.br` | Aplicativo (login, pedidos, painéis) — **não** compete por buscas de serviço |
+
+No app (`chamadopro/social` → `frontend`):
+- metadata raiz com `robots: noindex, follow`
+- `src/app/robots.ts` bloqueia áreas autenticadas/técnicas
+- páginas legais mantêm `index: true`
+- sem sitemap de serviços no app
+
+O site institucional concentra o sitemap e as páginas indexáveis de especialidades.
 
 ## Regra de produto (obrigatória)
 
@@ -58,9 +66,9 @@ CTAs com intenção explícita de pedido usam `entrarParaPedirServico()` em `src
 ```
 chamadopro_site/
 ├── docs/                 # Esta documentação
-├── public/               # logo.svg, robots.txt
+├── public/               # assets estáticos (logo, imagens)
 ├── src/
-│   ├── app/              # Rotas Next.js
+│   ├── app/              # Rotas Next.js (inclui robots.ts, sitemap.ts, /servicos/[slug])
 │   ├── components/       # UI compartilhada
 │   ├── config/appLinks.ts
 │   └── lib/catalog.ts    # Catálogo + fetch API
