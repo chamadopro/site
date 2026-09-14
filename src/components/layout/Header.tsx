@@ -12,12 +12,12 @@ import { cn } from '@/lib/cn';
 const primaryNav = [
   { href: '/', label: 'Início' },
   { href: '/como-funciona', label: 'Como funciona' },
+  { href: '/servicos', label: 'Serviços' },
   { href: '/para-clientes', label: 'Para clientes' },
   { href: '/para-prestadores', label: 'Para prestadores' },
 ] as const;
 
 const extraNav = [
-  { href: '/servicos', label: 'Serviços' },
   { href: '/sobre', label: 'Sobre' },
   { href: '/contato', label: 'Contato' },
 ] as const;
