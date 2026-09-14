@@ -6,83 +6,125 @@ export interface FaqItem {
 export interface EspecialidadeSeoContent {
   paragraphs: string[];
   faq: FaqItem[];
+  /** H1 opcional, usado quando a página precisa de copy mais alinhada à intenção de busca. */
+  h1?: string;
+  /** Title SEO opcional (sem sufixo de marca — o layout já aplica o template). */
+  metaTitle?: string;
+  /** Meta description opcional (idealmente 140–160 caracteres). */
+  metaDescription?: string;
 }
 
 /** Copy editorial por especialidade (conteúdo aprofundado, sem thin content nem keyword stuffing). */
 export const ESPECIALIDADE_SEO: Record<string, EspecialidadeSeoContent> = {
   pedreiro: {
+    h1: 'Contrate pedreiro para reforma e alvenaria',
+    metaTitle: 'Pedreiro para Reforma — Orçamento com Pagamento Seguro',
+    metaDescription:
+      'Encontre pedreiro para reforma, alvenaria, reboco ou demolição. Publique o pedido, compare orçamentos na sua região e pague com proteção no ChamadoPro.',
     paragraphs: [
-      'Contratar um pedreiro qualificado é essencial para reformas, ampliações e reparos estruturais com segurança. No ChamadoPro, você publica o escopo do serviço no aplicativo — alvenaria, reboco, contrapiso, demolição ou pequenos reparos — e recebe orçamentos de profissionais avaliados que atuam na sua região.',
-      'Ao comparar propostas, analise a experiência do profissional em obras semelhantes, os prazos de execução e se o orçamento contempla apenas a mão de obra ou também materiais básicos. Avaliações verificadas de outros clientes ajudam a identificar quem cumpre prazos e entrega acabamento limpo. No ChamadoPro, o seu pagamento permanece retido em custódia segura até que você confirme que a etapa combinada foi entregue com qualidade.',
-      'Se a sua obra envolver mais de uma etapa, você pode combinar o pedreiro com eletricista, encanador, gesseiro ou pintor. Ao publicar o pedido no app, envie fotos do local, mencione medidas aproximadas e informe a urgência para receber orçamentos fiéis e sem surpresas.',
+      'Quando a parede precisa subir, o reboco está irregular, o contrapiso falhou ou a reforma exige demolição controlada, o caminho mais seguro é contratar um pedreiro com escopo claro. No ChamadoPro você descreve o serviço no app, informa a localização e recebe orçamentos de profissionais que atendem a sua região — sem taxa para comparar propostas.',
+      'Para um orçamento mais fiel, diga se o trabalho é alvenaria, reboco, contrapiso, abertura de vão, reparo de fissura ou demolição; envie fotos e medidas aproximadas. Na comparação, veja o que entra na proposta (mão de obra ou também materiais), o prazo por etapa e a experiência em obras parecidas com a sua.',
+      'O pagamento fica em custódia até você confirmar a entrega da etapa combinada. Se a reforma também precisar de elétrica, hidráulica, gesso ou pintura, publique pedidos complementares e acompanhe tudo no mesmo fluxo do aplicativo.',
     ],
     faq: [
       {
-        question: 'Como solicitar um pedreiro pelo ChamadoPro?',
+        question: 'Como pedir orçamento de pedreiro no ChamadoPro?',
         answer:
-          'Acesse o aplicativo ChamadoPro, publique seu pedido descrevendo o que precisa ser feito e aguarde as propostas. Você compara orçamentos de pedreiros da sua região e contrata com pagamento protegido.',
+          'Publique o pedido no app com o tipo de serviço, localização e fotos do local. Pedreiros da região enviam propostas para você comparar e contratar com pagamento protegido.',
       },
       {
-        question: 'O pedreiro fornece os materiais de construção?',
+        question: 'O pedreiro leva os materiais da obra?',
         answer:
-          'Geralmente o orçamento cobre a mão de obra. No entanto, você pode combinar com o profissional na proposta se ele incluirá materiais básicos como cimento, areia e tijolos.',
+          'Em geral o orçamento cobre a mão de obra. Você pode combinar na proposta se o profissional incluirá cimento, areia, tijolos ou outros materiais básicos.',
+      },
+      {
+        question: 'O que influencia o preço do pedreiro?',
+        answer:
+          'Área, complexidade, acesso ao local e se há materiais inclusos. Solicitar orçamento no ChamadoPro é gratuito; você só paga ao aceitar a proposta.',
       },
     ],
   },
   encanador: {
+    h1: 'Contrate encanador para vazamento e reparo hidráulico',
+    metaTitle: 'Encanador para Vazamento — Orçamento com Pagamento Seguro',
+    metaDescription:
+      'Contrate encanador para vazamento, torneira, registro ou instalação hidráulica. Compare orçamentos na sua região e pague com proteção no ChamadoPro.',
     paragraphs: [
-      'Vazamentos, canos rompidos, troca de registros, instalação de louças e manutenção da rede de esgoto pedem um encanador experiente. No ChamadoPro, você descreve o problema no aplicativo e recebe orçamentos de profissionais hidráulicos que atendem o seu bairro ou cidade.',
-      'Enviar fotos ou vídeos do vazamento pelo app ajuda os encanadores a diagnosticar a complexidade e enviar estimativas muito mais precisas. Verifique a pontualidade, histórico de avaliações e se o prestador oferece garantia pós-serviço antes de aceitar uma proposta.',
-      'Com o pagamento em custódia do ChamadoPro, o valor só é repassado ao encanador após você testar o encanamento e confirmar que o vazamento foi eliminado. Publique seu pedido e receba propostas sem compromisso.',
+      'Torneira pingando, registro emperrado, cano rompido, vaso vazando ou infiltração começando na parede? Esses problemas pedem um encanador para diagnosticar e reparar a rede hidráulica antes que o dano cresça. No ChamadoPro você publica o que está acontecendo, informa onde precisa do atendimento e recebe orçamentos de profissionais da sua região.',
+      'Um vídeo curto ou fotos do ponto de vazamento ajudam a separar reparo simples de caso com risco de infiltração. Compare prazo, o que está incluso (mão de obra, peças, garantia) e só aceite depois de entender o escopo — sem pressão e sem compromisso na publicação do pedido.',
+      'Com o pagamento em custódia, o valor só é liberado depois que você testa a instalação e confirma que o defeito foi corrigido. Ideal para quem quer contratar encanador com transparência e sem combinações frágeis por mensagem.',
     ],
     faq: [
       {
         question: 'Como contratar encanador pelo ChamadoPro?',
         answer:
-          'Acesse o aplicativo ChamadoPro, faça login ou cadastre-se, crie a publicação informando o tipo de reparo hidráulico e sua localização. Prestadores enviam propostas diretamente no app.',
+          'Descreva o reparo (vazamento, troca de peça, instalação), informe a localização e anexe fotos se puder. Encanadores da região enviam orçamentos no app.',
       },
       {
-        question: 'Encanadores atendem chamados de emergência?',
+        question: 'Encanador atende emergência hidráulica?',
         answer:
-          'Sim. Muitos profissionais atendem chamados urgentes. Basta sinalizar a urgência no momento da publicação do pedido.',
+          'Sim. Muitos profissionais atendem urgências. Marque o pedido como urgente para priorizar propostas compatíveis.',
+      },
+      {
+        question: 'Peças e conexões entram no orçamento?',
+        answer:
+          'Depende da proposta. Alguns cobrem só a mão de obra; outros incluem registros, sifões ou conexões. Peça o detalhamento antes de aceitar.',
       },
     ],
   },
   diarista: {
+    h1: 'Contrate diarista para limpeza e faxina',
+    metaTitle: 'Diarista para Faxina — Orçamento com Pagamento Seguro',
+    metaDescription:
+      'Contrate diarista para faxina ou limpeza de rotina. Informe o tamanho do imóvel, compare orçamentos na sua região e pague com proteção no ChamadoPro.',
     paragraphs: [
-      'A contratação de uma diarista confiável traz praticidade e bem-estar para o seu lar ou escritório. No ChamadoPro, você encontra profissionais para faxina pesada, limpeza de rotina, organização de armários ou manutenção periódica.',
-      'Na publicação do pedido, informe o tamanho do imóvel (número de quartos e banheiros), a frequência desejada (única, semanal ou quinzenal) e se há necessidades especiais, como limpeza de janelas altas ou cuidados com animais de estimação. Compare orçamentos detalhados e veja a reputação deixada por outros contratantes da sua comunidade.',
-      'O pagamento protegido do ChamadoPro garante tranquilidade: você só libera o pagamento após a conclusão satisfatória da diária.',
+      'Casa bagunçada depois de reforma, limpeza pesada de fim de semana ou rotina semanal que não dá para manter sozinho? Contratar diarista pelo ChamadoPro começa com um pedido simples: você informa o tamanho do imóvel, a frequência desejada e a localização, e recebe orçamentos de profissionais que atendem a sua região.',
+      'Quanto mais detalhe, melhor o orçamento: número de quartos e banheiros, se é faxina pesada ou limpeza de manutenção, e se há janelas altas, fogão embutido ou pets. Assim a profissional estima o tempo real antes de enviar a proposta.',
+      'Você compara valores e avaliações, escolhe quem combina com a sua necessidade e só libera o pagamento após a diária concluída. O fluxo evita combinações informais e pagamento em dinheiro sem registro.',
     ],
     faq: [
       {
         question: 'A diarista leva os produtos de limpeza?',
         answer:
-          'O padrão do mercado é o cliente fornecer os produtos e utensílios, mas alguns profissionais oferecem o serviço completo com produtos inclusos mediante acerto prévio na proposta.',
+          'O mais comum é o cliente fornecer produtos e utensílios. Algumas profissionais incluem produtos mediante acerto prévio na proposta.',
       },
       {
-        question: 'Posso contratar diárias recorrentes?',
+        question: 'Dá para contratar diária toda semana?',
         answer:
-          'Sim. Você pode publicar pedidos para diárias avulsas ou combinar visitas regulares com o profissional escolhido através da plataforma.',
+          'Sim. Você pode pedir uma diária avulsa ou combinar visitas semanais ou quinzenais com a profissional escolhida no app.',
+      },
+      {
+        question: 'Como saber o valor justo da diária?',
+        answer:
+          'O preço varia com o tamanho do imóvel, o tipo de limpeza e a região. Peça orçamentos gratuitos no ChamadoPro e compare antes de decidir.',
       },
     ],
   },
   'eletricista-residencial': {
+    h1: 'Contrate eletricista residencial com orçamento seguro',
+    metaTitle: 'Eletricista Residencial — Orçamento com Pagamento Seguro',
+    metaDescription:
+      'Contrate eletricista para tomada, chuveiro, quadro de luz ou curto-circuito. Compare orçamentos na sua região e pague com proteção no ChamadoPro.',
     paragraphs: [
-      'Instalações e manutenções elétricas exigem capacitação técnica e rigor com normas de segurança para evitar curtos-circuitos, sobrecargas e riscos de incêndio. No ChamadoPro, você publica desde serviços simples, como troca de tomadas e instalação de chuveiros, até reformas completas do quadro de distribuição.',
-      'Profissionais qualificados da sua região enviam propostas com escopo bem definido. Analise as qualificações do eletricista, as avaliações de outros moradores e o prazo proposto. O pagamento protegido do ChamadoPro assegura que você só libera o valor após a realização dos testes elétricos.',
-      'Você pode utilizar fotos do quadro de luz ou dos aparelhos a serem instalados para que os eletricistas compreendam a dimensão da fiação e enviem orçamentos precisos rapidamente.',
+      'Disjuntor desarmando, tomada sem energia, chuveiro para instalar, interruptor queimado ou quadro de luz precário? Serviço elétrico residencial exige cuidado para evitar sobrecarga e risco de curto-circuito. No ChamadoPro você descreve o problema, informa a localização e recebe orçamentos de eletricistas que atendem a sua região.',
+      'Fotos do quadro de distribuição ou do ponto a instalar ajudam o profissional a estimar fiação, carga e tempo de serviço. Na comparação dos orçamentos, veja o que está incluso (mão de obra, materiais e testes), o prazo e as avaliações — e só aceite quando o escopo estiver claro.',
+      'O pagamento protegido só é liberado depois que você confere o funcionamento das instalações. Em emergência (queda de energia, cheiro de queimado ou curto), marque a urgência no pedido para receber propostas mais rápidas.',
     ],
     faq: [
       {
         question: 'Eletricista residencial atende emergência?',
         answer:
-          'Muitos eletricistas cadastrados atendem chamados urgentes para quedas de energia e curto-circuitos. Sinalize a urgência ao publicar o chamado no app.',
+          'Muitos profissionais atendem urgências como queda de energia e curto-circuito. Sinalize a urgência ao publicar o chamado.',
       },
       {
-        question: 'É necessário trocar a fiação antiga ao reformar?',
+        question: 'Preciso trocar a fiação antiga na reforma?',
         answer:
-          'Depende da idade do imóvel e da carga dos novos aparelhos. Um eletricista qualificado avaliará a bitola dos fios e a capacidade do disjuntor geral.',
+          'Depende da idade do imóvel e da carga dos aparelhos novos. O eletricista avalia bitola dos fios e capacidade do disjuntor geral antes de indicar a troca.',
+      },
+      {
+        question: 'Como pedir orçamento de eletricista no ChamadoPro?',
+        answer:
+          'Publique instalação, reparo ou manutenção, informe a localização e anexe fotos se possível. Compare propostas e contrate com pagamento em custódia.',
       },
     ],
   },
@@ -101,21 +143,30 @@ export const ESPECIALIDADE_SEO: Record<string, EspecialidadeSeoContent> = {
     ],
   },
   'pintor-residencial': {
+    h1: 'Contrate pintor para pintura interna e externa',
+    metaTitle: 'Pintor Residencial — Orçamento com Pagamento Seguro',
+    metaDescription:
+      'Contrate pintor para pintura interna ou externa, massa corrida e acabamento. Compare orçamentos na sua região e pague com proteção no ChamadoPro.',
     paragraphs: [
-      'Uma pintura bem planejada renova a estética dos ambientes, protege as paredes contra mofo e intempéries e valoriza o imóvel. No ChamadoPro, você contrata pintores residenciais experientes em pintura látex, acrílica, esmalte sintético, texturas, aplicação de massa corrida e impermeabilização de paredes.',
-      'Ao avaliar os orçamentos, confira se o serviço inclui lixamento prévio, isolamento de pisos, rodapés e móveis, e aplicação de fundo preparador. Avaliações reais de clientes anteriores são um ótimo indicativo do capricho e da limpeza deixada pelo pintor.',
-      'Com o pagamento protegido do ChamadoPro, você tem a segurança de conferir todo o acabamento e a cobertura da tinta antes da liberação final do valor acordado.',
+      'Quer renovar a cor dos ambientes, cobrir mancha de umidade, aplicar massa corrida ou pintar fachada e portas? Um pintor residencial cuida do preparo da superfície e do acabamento para o resultado ficar uniforme. No ChamadoPro você publica o que precisa pintar, a metragem aproximada e a localização, e recebe orçamentos de profissionais da região.',
+      'Na comparação, confira se entram lixamento, fundo preparador, proteção de pisos e móveis, e quantas demãos estão previstas. Deixe claro se a tinta será sua ou se o orçamento deve incluir material — isso muda o valor final.',
+      'Com o pagamento em custódia, você confere cobertura e acabamento antes de liberar o valor. Em pintura externa, informe acesso (escada ou andaime) e o estado das paredes para propostas mais precisas.',
     ],
     faq: [
       {
-        question: 'O pintor fornece as tintas e materiais?',
+        question: 'O pintor fornece tinta e materiais?',
         answer:
-          'Geralmente o cliente adquire as tintas conforme a marca e cor de sua preferência, e o pintor pode incluir lixas, fitas e rolos na proposta. Isso fica claro no orçamento recebido.',
+          'Em geral o cliente escolhe e compra a tinta; o pintor pode incluir lixas, fitas e rolos. Combine isso no orçamento antes de aceitar.',
       },
       {
-        question: 'Quantas demãos de tinta são necessárias?',
+        question: 'Quantas demãos costumam ser necessárias?',
         answer:
-          'Na maioria dos casos são necessárias de 2 a 3 demãos para cobertura uniforme, dependendo da cor anterior e do estado da parede.',
+          'Na maioria dos casos são 2 a 3 demãos para cobertura uniforme, conforme a cor anterior e o estado da parede.',
+      },
+      {
+        question: 'Como pedir orçamento de pintura no ChamadoPro?',
+        answer:
+          'Descreva os ambientes, a metragem aproximada e se a pintura é interna ou externa. Anexe fotos se puder e compare as propostas com pagamento protegido.',
       },
     ],
   },

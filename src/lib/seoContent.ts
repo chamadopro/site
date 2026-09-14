@@ -53,8 +53,12 @@ export function getEspecialidadeContent(
 export function getSpecialtyMetaDescription(
   espNome: string,
   catNome: string,
-  firstParagraph?: string
+  firstParagraph?: string,
+  customDescription?: string
 ): string {
+  if (customDescription && customDescription.trim().length > 0) {
+    return customDescription.trim();
+  }
   if (firstParagraph) {
     const sentenceMatch = firstParagraph.match(/^([^.!?]+[.!?])/);
     if (sentenceMatch && sentenceMatch[1].length >= 90 && sentenceMatch[1].length <= 160) {

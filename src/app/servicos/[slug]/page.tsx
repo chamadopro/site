@@ -61,9 +61,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (foundSpecialty) {
     const { categoria: cat, especialidade: esp } = foundSpecialty;
     const content = getEspecialidadeContent(esp.slug, esp.nome, esp.descricao, cat.nome);
-    const metaDescription = getSpecialtyMetaDescription(esp.nome, cat.nome, content.paragraphs[0]);
+    const metaDescription = getSpecialtyMetaDescription(
+      esp.nome,
+      cat.nome,
+      content.paragraphs[0],
+      content.metaDescription
+    );
     return buildPageMetadata({
-      title: `${esp.nome} — Orçamentos com Pagamento Protegido`,
+      title: content.metaTitle ?? `${esp.nome} — Orçamentos com Pagamento Protegido`,
       description: metaDescription,
       path: servicoPath(esp.slug),
     });
@@ -189,7 +194,12 @@ export default async function ServicoSlugPage({ params }: PageProps) {
     );
     const path = servicoPath(esp.slug);
 
-    const metaDescription = getSpecialtyMetaDescription(esp.nome, cat.nome, content.paragraphs[0]);
+    const metaDescription = getSpecialtyMetaDescription(
+      esp.nome,
+      cat.nome,
+      content.paragraphs[0],
+      content.metaDescription
+    );
 
     return (
       <ServicePageContent
@@ -199,7 +209,7 @@ export default async function ServicoSlugPage({ params }: PageProps) {
           { name: cat.nome, path: `/servicos/${cat.slug}` },
           { name: esp.nome, path },
         ]}
-        h1={`${esp.nome} — orçamentos com pagamento seguro`}
+        h1={content.h1 ?? `${esp.nome} — orçamentos com pagamento seguro`}
         intro={esp.descricao}
         paragraphs={content.paragraphs}
         faq={content.faq}
