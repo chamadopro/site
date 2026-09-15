@@ -69,8 +69,16 @@ export function PhoneMockup({
         setSlidePos((p) => (p + 1) % stepCount);
         return;
       }
-      setTransitionEnabled(true);
-      setSlidePos((p) => p + 1);
+
+      setSlidePos((p) => {
+        // Se o loop não resetou (transitionend perdido), recupera sem avançar além da trilha.
+        if (p >= stepCount) {
+          setTransitionEnabled(false);
+          return 0;
+        }
+        setTransitionEnabled(true);
+        return p + 1;
+      });
     }, dwell);
 
     return () => window.clearTimeout(id);
@@ -88,20 +96,34 @@ export function PhoneMockup({
     const track = trackRef.current;
     if (!track || stepCount <= 1) return;
 
+    const snapToStart = () => {
+      setSlidePos((p) => {
+        if (p < stepCount) return p;
+        setTransitionEnabled(false);
+        return 0;
+      });
+    };
+
     const onTransitionEnd = (e: TransitionEvent) => {
       if (e.target !== track || e.propertyName !== 'transform') return;
-      setSlidePos((p) => {
-        if (p >= stepCount) {
-          setTransitionEnabled(false);
-          return 0;
-        }
-        return p;
-      });
+      snapToStart();
     };
 
     track.addEventListener('transitionend', onTransitionEnd);
     return () => track.removeEventListener('transitionend', onTransitionEnd);
   }, [stepCount]);
+
+  // Fallback: se transitionend não disparar (aba em segundo plano, browser, etc.), evita tela branca.
+  useEffect(() => {
+    if (reducedMotion || slidePos < stepCount) return;
+
+    const id = window.setTimeout(() => {
+      setTransitionEnabled(false);
+      setSlidePos(0);
+    }, slideMs + 150);
+
+    return () => window.clearTimeout(id);
+  }, [slidePos, stepCount, slideMs, reducedMotion]);
 
   useLayoutEffect(() => {
     if (!transitionEnabled) {
@@ -112,7 +134,8 @@ export function PhoneMockup({
   const trackSlides =
     ready && stepCount > 1 && !reducedMotion ? [...slides, slides[0]] : slides;
 
-  const visualPos = reducedMotion ? displayPos : slidePos;
+  // Nunca traduz além do clone final — evita “buraco” branco se o índice escapar.
+  const visualPos = reducedMotion ? displayPos : Math.min(slidePos, stepCount);
   const useSlideMotion = ready && transitionEnabled && !reducedMotion;
 
   const screens = (
@@ -152,7 +175,7 @@ export function PhoneMockup({
                     className="object-contain object-center"
                     sizes="(min-width: 1280px) 310px, (min-width: 1024px) 280px, 300px"
                     priority={slide.frameIndex === 0 && slideIndex === 0}
-                    loading={slide.frameIndex === 0 ? 'eager' : 'lazy'}
+                    loading="eager"
                   />
                 )}
               </div>
