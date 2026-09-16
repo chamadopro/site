@@ -44,8 +44,8 @@ export function ProviderPromoBanner({ className }: { className?: string }) {
         )}
         aria-label={`${title}. ${cta}`}
       >
-        {/* Desktop: imagem (tamanho original) + botão na mesma linha */}
-        <div className="hidden items-center justify-center gap-4 px-4 md:flex lg:gap-5">
+        {/* Desktop: imagem + botão na mesma linha (sem estourar a viewport) */}
+        <div className="mx-auto hidden w-full max-w-6xl items-center justify-center gap-4 overflow-hidden px-4 md:flex lg:max-w-[1100px] lg:gap-5 lg:px-10">
           {!imageFailed ? (
             <Image
               src={imageDesktopSrc}
@@ -54,8 +54,7 @@ export function ProviderPromoBanner({ className }: { className?: string }) {
               height={DESKTOP.h}
               unoptimized
               priority
-              className="h-[101px] w-auto max-w-none shrink-0 object-contain transition-opacity group-hover:opacity-95"
-              style={{ height: DESKTOP.h, width: 'auto' }}
+              className="h-auto max-h-[101px] w-auto max-w-[min(100%,746px)] min-w-0 object-contain transition-opacity group-hover:opacity-95"
               onError={() => setImageFailed(true)}
             />
           ) : (

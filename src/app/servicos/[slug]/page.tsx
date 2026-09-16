@@ -101,7 +101,7 @@ export default async function ServicoSlugPage({ params }: PageProps) {
         <BreadcrumbJsonLd items={breadcrumbs} />
         <div className="bg-cp-background">
           <section className="border-b border-cp-border bg-cp-surface">
-            <div className={`${pageContainerClass} py-10 sm:py-12`}>
+            <div className={`${pageContainerClass} py-4 sm:py-5 lg:py-6`}>
               <nav className="text-sm text-cp-text-secondary" aria-label="Breadcrumb">
                 <Link href="/" className="hover:text-brand-orange">
                   Início
@@ -114,15 +114,15 @@ export default async function ServicoSlugPage({ params }: PageProps) {
                 <span className="text-cp-text-primary font-medium">{categoria.nome}</span>
               </nav>
 
-              <div className="mt-6 flex items-start gap-4">
-                <div className="rounded-xl bg-brand-orange-light p-4 text-brand-orange shrink-0">
-                  <CategoryIcon name={categoria.icone} className="h-8 w-8" />
+              <div className="mt-3 flex items-start gap-3 sm:mt-3.5 sm:gap-4">
+                <div className="rounded-xl bg-brand-orange-light p-3 text-brand-orange shrink-0 sm:p-3.5">
+                  <CategoryIcon name={categoria.icone} className="h-7 w-7 sm:h-8 sm:w-8" />
                 </div>
-                <div>
-                  <h1 className="text-3xl font-bold tracking-[-0.02em] text-cp-text-primary sm:text-4xl">
+                <div className="min-w-0">
+                  <h1 className="text-2xl font-bold tracking-[-0.02em] text-cp-text-primary sm:text-3xl lg:text-[2rem]">
                     {categoria.nome}
                   </h1>
-                  <p className="mt-3 max-w-3xl text-base leading-relaxed text-cp-text-secondary sm:text-lg">
+                  <p className="mt-2 max-w-3xl text-sm leading-relaxed text-cp-text-secondary sm:mt-2.5 sm:text-base">
                     {categoria.descricao}
                   </p>
                 </div>

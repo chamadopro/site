@@ -26,7 +26,7 @@ export default async function ServicosPage() {
       <BreadcrumbJsonLd items={breadcrumbs} />
       <div className="bg-cp-background">
         <section className="border-b border-cp-border bg-cp-surface">
-          <div className={`${pageContainerClass} py-10 sm:py-12`}>
+          <div className={`${pageContainerClass} py-4 sm:py-5 lg:py-6`}>
             <nav className="text-sm text-cp-text-secondary" aria-label="Breadcrumb">
               <Link href="/" className="hover:text-brand-orange">
                 Início
@@ -34,10 +34,10 @@ export default async function ServicosPage() {
               <span className="mx-2">/</span>
               <span className="text-cp-text-primary font-medium">Serviços</span>
             </nav>
-            <h1 className="mt-4 text-3xl font-bold tracking-[-0.02em] text-cp-text-primary sm:text-4xl">
+            <h1 className="mt-3 text-2xl font-bold tracking-[-0.02em] text-cp-text-primary sm:mt-3.5 sm:text-3xl lg:text-[2rem]">
               Serviços e Especialidades
             </h1>
-            <p className="mt-3 max-w-3xl text-base leading-relaxed text-cp-text-secondary sm:mt-4 sm:text-lg">
+            <p className="mt-2 max-w-3xl text-sm leading-relaxed text-cp-text-secondary sm:mt-2.5 sm:text-base">
               Explore o diretório de serviços do ChamadoPro. Encontre profissionais qualificados para
               sua casa ou empresa e receba orçamentos gratuitos com pagamento protegido em custódia.
             </p>
