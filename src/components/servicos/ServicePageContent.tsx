@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { ButtonLink } from '@/components/ui/Button';
-import { pageSectionClass } from '@/components/layout/PageShell';
+import { pageContainerClass, pageSectionClass } from '@/components/layout/PageShell';
 import { BreadcrumbJsonLd, FaqJsonLd, ServiceJsonLd } from '@/components/seo/JsonLd';
 import { appLinks } from '@/config/appLinks';
 import { audienceClasses } from '@/lib/audienceColors';
@@ -65,7 +65,7 @@ export function ServicePageContent({
         <section className="border-b border-cp-border bg-cp-surface">
           <div
             className={cn(
-              'mx-auto w-full max-w-3xl px-4 sm:px-6 lg:px-10',
+              pageContainerClass,
               intro ? 'py-4 sm:py-5 lg:py-6' : 'py-3.5 sm:py-4 lg:py-5',
             )}
           >
@@ -88,7 +88,7 @@ export function ServicePageContent({
               {h1}
             </h1>
             {intro ? (
-              <p className="mt-2 text-sm leading-relaxed text-cp-text-secondary sm:mt-2.5 sm:text-base">
+              <p className="mt-2 max-w-3xl text-sm leading-relaxed text-cp-text-secondary sm:mt-2.5 sm:text-base">
                 {intro}
               </p>
             ) : null}
@@ -108,24 +108,55 @@ export function ServicePageContent({
         </section>
 
         <section className={pageSectionClass}>
-          <div className="mx-auto w-full max-w-3xl space-y-6 px-4 sm:space-y-8 sm:px-6 lg:px-10">
-            <article className="rounded-2xl border border-cp-border bg-white p-5 sm:p-6 lg:p-8">
-              <h2 className="page-h2 text-cp-text-primary">
-                {cidade
-                  ? `${especialidade.nome} em ${cidade.nome}`
-                  : `Como contratar ${especialidade.nome.toLowerCase()} pelo ChamadoPro`}
-              </h2>
-              <div className="page-body mt-4 space-y-4">
-                {paragraphs.map((p) => (
-                  <p key={p.slice(0, 40)}>{p}</p>
-                ))}
+          <div className={pageContainerClass}>
+            <div className="lg:grid lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:items-start lg:gap-10">
+              <div>
+                <h2 className="page-h2 text-cp-text-primary">
+                  {cidade
+                    ? `${especialidade.nome} em ${cidade.nome}`
+                    : `Como contratar ${especialidade.nome.toLowerCase()} pelo ChamadoPro`}
+                </h2>
+                <div className="page-body mt-4 space-y-4">
+                  {paragraphs.map((p) => (
+                    <p key={p.slice(0, 40)}>{p}</p>
+                  ))}
+                </div>
               </div>
-            </article>
+
+              <aside className="mt-8 space-y-4 lg:mt-0">
+                {!cidade ? (
+                  <div className="rounded-2xl border border-cp-border bg-white p-5 sm:p-6">
+                    <h2 className="page-h2 text-cp-text-primary">Atendimento em todo o Brasil</h2>
+                    <p className="page-body mt-2">
+                      Informe sua cidade no app para receber orçamentos de profissionais da sua
+                      região, com pagamento protegido em custódia.
+                    </p>
+                    <div className="mt-5 flex flex-col gap-3">
+                      <ButtonLink href={appLinks.entrarParaPedirServico()} external>
+                        Solicitar no app
+                      </ButtonLink>
+                      <ButtonLink href={appLinks.cadastroPrestador} variant="outline" external>
+                        Sou prestador desta área
+                      </ButtonLink>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="rounded-2xl border border-cp-border bg-white p-5 sm:p-6">
+                    <Link
+                      href={servicoPath(especialidade.slug)}
+                      className={cn('text-sm font-semibold hover:underline', client.text)}
+                    >
+                      ← Ver página principal de {especialidade.nome}
+                    </Link>
+                  </div>
+                )}
+              </aside>
+            </div>
 
             {faq.length > 0 ? (
-              <div>
+              <div className="mt-10 sm:mt-12">
                 <h2 className="page-h2 text-cp-text-primary">Perguntas frequentes</h2>
-                <dl className="mt-4 space-y-3 sm:mt-5 sm:space-y-4">
+                <dl className="mt-5 grid gap-3 sm:mt-6 sm:grid-cols-2 sm:gap-4">
                   {faq.map((item) => (
                     <div
                       key={item.question}
@@ -139,33 +170,10 @@ export function ServicePageContent({
               </div>
             ) : null}
 
-            {!cidade ? (
-              <div className="rounded-2xl border border-cp-border bg-white p-5 sm:p-6">
-                <h2 className="page-h2 text-cp-text-primary">Atendimento em todo o Brasil</h2>
-                <p className="page-body mt-2">
-                  O ChamadoPro conecta clientes e profissionais autônomos em qualquer cidade do
-                  país. Ao publicar seu chamado no aplicativo, informe sua localidade para receber
-                  orçamentos de quem atende seu bairro ou região com pagamento protegido em
-                  custódia.
-                </p>
-              </div>
-            ) : (
-              <div className="rounded-2xl border border-cp-border bg-white p-5 sm:p-6">
-                <p className="text-sm">
-                  <Link
-                    href={servicoPath(especialidade.slug)}
-                    className={cn('font-semibold hover:underline', client.text)}
-                  >
-                    ← Ver página principal de {especialidade.nome}
-                  </Link>
-                </p>
-              </div>
-            )}
-
             {showRelatedSpecialties && relacionadas.length > 0 ? (
-              <div>
+              <div className="mt-10 sm:mt-12">
                 <h2 className="page-h2 text-cp-text-primary">Serviços relacionados</h2>
-                <ul className="mt-4 grid gap-2 sm:grid-cols-2 sm:gap-3">
+                <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                   {relacionadas.map((esp) => (
                     <li key={esp.slug}>
                       <Link
@@ -175,7 +183,7 @@ export function ServicePageContent({
                             : servicoPath(categoria.slug, esp.slug)
                         }
                         className={cn(
-                          'flex items-center justify-between rounded-xl border border-cp-border bg-white px-4 py-3 text-sm transition-colors',
+                          'flex h-full items-center justify-between rounded-2xl border border-cp-border bg-white px-4 py-3.5 text-sm transition-colors',
                           'hover:border-brand-orange/40 hover:text-brand-orange',
                           client.text,
                         )}
