@@ -39,7 +39,8 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  alternates: { canonical: SITE_URL },
+  // Canônico fica em cada página (`buildPageMetadata`). Não definir o da home aqui:
+  // senão o Google trata as internas como cópia da raiz.
   icons: {
     icon: [
       { url: '/favicon-32.png', sizes: '32x32', type: 'image/png' },

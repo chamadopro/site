@@ -74,7 +74,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     });
   }
 
-  return { title: 'Serviço não encontrado' };
+  return { title: 'Serviço não encontrado', robots: { index: false, follow: true } };
 }
 
 export default async function ServicoSlugPage({ params }: PageProps) {

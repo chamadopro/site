@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { ArrowRight, Gift } from 'lucide-react';
 import { useState } from 'react';
 import { providerPromo } from '@/config/promotions';
@@ -13,8 +14,18 @@ const MOBILE = { w: 388, h: 122 } as const;
 /**
  * Faixa da promoção — imagem na proporção/altura original + CTA na mesma linha.
  * Toda a faixa é clicável; o botão reforça a ação.
+ * `priority` só na home (LCP das páginas de serviço não compete com a promo).
  */
-export function ProviderPromoBanner({ className }: { className?: string }) {
+export function ProviderPromoBanner({
+  className,
+  priority,
+}: {
+  className?: string;
+  /** Se omitido, prioriza só em `/`. */
+  priority?: boolean;
+}) {
+  const pathname = usePathname();
+  const preferPriority = priority ?? pathname === '/';
   const [imageFailed, setImageFailed] = useState(false);
   const {
     label,
@@ -53,7 +64,7 @@ export function ProviderPromoBanner({ className }: { className?: string }) {
               width={DESKTOP.w}
               height={DESKTOP.h}
               unoptimized
-              priority
+              priority={preferPriority}
               className="h-auto max-h-[101px] w-auto max-w-[min(100%,746px)] min-w-0 object-contain transition-opacity group-hover:opacity-95"
               onError={() => setImageFailed(true)}
             />
@@ -89,7 +100,7 @@ export function ProviderPromoBanner({ className }: { className?: string }) {
                 width={MOBILE.w}
                 height={MOBILE.h}
                 unoptimized
-                priority
+                priority={preferPriority}
                 className="h-[122px] w-auto max-w-full object-contain"
                 style={{ height: MOBILE.h, width: 'auto', maxWidth: '100%' }}
                 onError={() => setImageFailed(true)}

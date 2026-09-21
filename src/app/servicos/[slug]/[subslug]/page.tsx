@@ -53,11 +53,22 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (foundSpecialty && cidade) {
     const { especialidade: esp } = foundSpecialty;
-    const content = getLocalContent(esp.slug, esp.nome, esp.descricao, foundSpecialty.categoria.nome, cidade);
+    const content = getLocalContent(
+      esp.slug,
+      esp.nome,
+      esp.descricao,
+      foundSpecialty.categoria.nome,
+      cidade,
+    );
 
+    // Soft landing: OG/Twitter via helper; canônico nacional + noindex
     return {
-      title: `${content.metaTitle} | ChamadoPro`,
-      description: content.metaDescription,
+      ...buildPageMetadata({
+        title: content.metaTitle,
+        description: content.metaDescription,
+        path: `/servicos/${esp.slug}/${cidade.slug}`,
+        ogTitle: `${esp.nome} em ${cidade.nome} | ChamadoPro`,
+      }),
       alternates: {
         canonical: absoluteUrl(`/servicos/${esp.slug}`),
       },
@@ -68,7 +79,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
-  return { title: 'Página não encontrada' };
+  return { title: 'Página não encontrada', robots: { index: false, follow: true } };
 }
 
 export default async function ServicoSubslugPage({ params }: PageProps) {

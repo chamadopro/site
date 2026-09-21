@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { CATALOGO_ESTATICO, getAllSpecialties } from '@/lib/catalog';
-import { SITE_URL } from '@/lib/siteConfig';
+import { absoluteUrl } from '@/lib/siteConfig';
 
 const staticPages = [
   { path: '', changeFrequency: 'daily' as const, priority: 1.0 },
@@ -19,7 +19,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // 1. Páginas institucionais fixas
   const entries: MetadataRoute.Sitemap = staticPages.map(({ path, changeFrequency, priority }) => ({
-    url: `${SITE_URL}${path}`,
+    url: absoluteUrl(path || '/'),
     lastModified: now,
     changeFrequency,
     priority,
@@ -28,7 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // 2. Diretórios de Categorias (/servicos/construcao-reforma, etc.)
   for (const cat of CATALOGO_ESTATICO) {
     entries.push({
-      url: `${SITE_URL}/servicos/${cat.slug}`,
+      url: absoluteUrl(`/servicos/${cat.slug}`),
       lastModified: now,
       changeFrequency: 'weekly',
       priority: 0.85,
@@ -39,7 +39,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const allSpecialties = getAllSpecialties(CATALOGO_ESTATICO);
   for (const { especialidade } of allSpecialties) {
     entries.push({
-      url: `${SITE_URL}/servicos/${especialidade.slug}`,
+      url: absoluteUrl(`/servicos/${especialidade.slug}`),
       lastModified: now,
       changeFrequency: 'weekly',
       priority: 0.8,

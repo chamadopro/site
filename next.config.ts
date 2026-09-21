@@ -4,6 +4,18 @@ const nextConfig: NextConfig = {
   trailingSlash: false,
   async redirects() {
     return [
+      {
+        source: '/',
+        has: [{ type: 'host', value: 'www.chamadopro.com.br' }],
+        destination: 'https://chamadopro.com.br',
+        permanent: true,
+      },
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.chamadopro.com.br' }],
+        destination: 'https://chamadopro.com.br/:path*',
+        permanent: true,
+      },
       { source: '/home', destination: '/', permanent: true },
       // Aliases populares de busca direcionando com 301 para a especialidade canônica
       { source: '/servicos/eletricista', destination: '/servicos/eletricista-residencial', permanent: true },

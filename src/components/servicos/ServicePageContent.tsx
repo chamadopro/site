@@ -56,7 +56,8 @@ export function ServicePageContent({
       <ServiceJsonLd
         name={serviceName}
         description={serviceDescription}
-        path={servicePath}
+        // Soft landing de cidade: Schema alinhado ao canônico nacional indexável
+        path={cidade ? servicoPath(especialidade.slug) : servicePath}
         areaServed={areaServed}
       />
       <FaqJsonLd items={faq} />
@@ -113,7 +114,7 @@ export function ServicePageContent({
               <div>
                 <h2 className="page-h2 text-cp-text-primary">
                   {cidade
-                    ? `${especialidade.nome} em ${cidade.nome}`
+                    ? `Como contratar em ${cidade.nome}`
                     : `Como contratar ${especialidade.nome.toLowerCase()} pelo ChamadoPro`}
                 </h2>
                 <div className="page-body mt-4 space-y-4">
@@ -162,7 +163,9 @@ export function ServicePageContent({
                       key={item.question}
                       className="rounded-2xl border border-cp-border bg-white p-4 sm:p-5"
                     >
-                      <dt className="page-card-title">{item.question}</dt>
+                      <dt>
+                        <h3 className="page-card-title">{item.question}</h3>
+                      </dt>
                       <dd className="page-body mt-2">{item.answer}</dd>
                     </div>
                   ))}
