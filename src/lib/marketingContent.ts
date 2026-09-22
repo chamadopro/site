@@ -72,9 +72,9 @@ export const metadataCopy = {
       'Publique seu pedido gratuitamente, receba orçamentos de profissionais avaliados da sua região e pague com custódia segura até a conclusão.',
   },
   paraPrestadores: {
-    title: 'Cadastre-se como Prestador de Serviços e Receba Pedidos',
+    title: 'Ganhar Dinheiro como Prestador de Serviços Autônomo',
     description:
-      'Encontre clientes na sua cidade, envie propostas para serviços compatíveis com sua especialidade e receba com pagamento garantido.',
+      'Cadastre-se grátis no ChamadoPro e receba pedidos de orçamentos de serviços direto no seu celular. Plataforma para eletricista, pintor, encanador, diarista e mais.',
   },
   comoFunciona: {
     title: 'Como Funciona o ChamadoPro — Do Pedido ao Pagamento Protegido',
@@ -180,12 +180,10 @@ export const providerPublishTypes = [
 ] as const;
 
 export const providerBenefitsPage = [
-  'Cadastro com suas especialidades e área de atendimento',
-  'Oportunidades na região — avisos quando clientes pedem serviços compatíveis',
-  'Orçamentos pela plataforma — valor, prazo e detalhes em um só fluxo',
-  'Execução acompanhada — conversa e andamento no ChamadoPro',
-  'Recebimento integrado — liberação e saque após a conclusão do serviço',
-  'Reputação — avaliações reais de quem já contratou você',
+  'Anúncios Sem Custo — Você não paga nada para aparecer no nosso catálogo público de especialistas e ser visto por centenas de clientes.',
+  'Oportunidades Diretas — Receba solicitações detalhadas por texto ou áudio de clientes que realmente precisam do seu serviço direto no seu aplicativo.',
+  'Garantia de Recebimento — O dinheiro do cliente fica protegido em custódia segura pela plataforma e é liberado na sua conta assim que você conclui o serviço. Diga adeus aos calotes!',
+  'Reputação e Destaque — Acumule avaliações reais de cinco estrelas dos seus clientes e construa uma reputação digital imbatível na sua cidade.',
 ] as const;
 
 export const clientJourneyPage = {
@@ -198,15 +196,34 @@ export const clientJourneyPage = {
 } as const;
 
 export const providerJourneyPage = {
-  heroTitle: 'Para prestadores',
+  heroTitle: 'Aumente sua Renda e Encontre Clientes na sua Região.',
   heroDescription:
-    'Receba oportunidades na sua região, envie orçamentos e receba pela plataforma.',
+    'O ChamadoPro conecta profissionais autônomos a pedidos de serviços reais todos os dias. Cadastro 100% gratuito, sem taxas ocultas para aparecer e com pagamento garantido em custódia.',
   workTitle: 'Como você trabalha no ChamadoPro',
   publishTitle: 'Também pode divulgar seu trabalho',
   ctaTitle: 'Cadastre-se como prestador',
   ctaDescription:
     'Informe suas especialidades, monte seu perfil e comece a receber oportunidades compatíveis.',
 } as const;
+
+/** FAQ da página /para-prestadores (também alimenta FAQPage JSON-LD). */
+export const providerFaqPage = [
+  {
+    question: 'Preciso pagar para me cadastrar ou receber pedidos?',
+    answer:
+      'Não. O cadastro para prestadores de serviços no ChamadoPro é totalmente gratuito e não cobramos mensalidades ou créditos para você visualizar e responder às oportunidades da sua região.',
+  },
+  {
+    question: 'Como funciona a garantia de pagamento do serviço?',
+    answer:
+      'Para sua total segurança, o cliente realiza o pagamento protegido no momento da contratação. Esse valor fica retido em custódia pelo ChamadoPro e é transferido para a sua conta bancária assim que o serviço for finalizado e aprovado.',
+  },
+  {
+    question: 'Quais especialidades posso cadastrar no aplicativo?',
+    answer:
+      'Atendemos mais de 200 especialidades! Você pode se cadastrar como profissional da construção (pedreiro, pintor), elétrica, hidráulica, serviços domésticos (diarista), montagem de móveis, climatização ou assistência técnica.',
+  },
+] as const;
 
 /** Jornada do prestador — /como-funciona. */
 export const providerFlowSteps = [

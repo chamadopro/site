@@ -6,11 +6,13 @@ import {
   pageContainerClass,
   pageSectionClass,
 } from '@/components/layout/PageShell';
+import { FaqJsonLd } from '@/components/seo/JsonLd';
 import { appLinks } from '@/config/appLinks';
 import { buildPageMetadata } from '@/lib/metadataHelpers';
 import {
   metadataCopy,
   providerBenefitsPage,
+  providerFaqPage,
   providerJourneyPage,
   providerPublishTypes,
 } from '@/lib/marketingContent';
@@ -34,6 +36,7 @@ function splitBenefit(item: string): { title: string; detail?: string } {
 export default function ParaPrestadoresPage() {
   return (
     <>
+      <FaqJsonLd items={[...providerFaqPage]} />
       <PageHero
         title={providerJourneyPage.heroTitle}
         description={providerJourneyPage.heroDescription}
@@ -106,6 +109,25 @@ export default function ParaPrestadoresPage() {
             </Link>
             .
           </p>
+
+          <section className="mt-10 sm:mt-12 lg:mt-14" aria-labelledby="faq-prestadores">
+            <h2 id="faq-prestadores" className="page-h2 text-cp-text-primary">
+              Perguntas frequentes
+            </h2>
+            <dl className="mt-5 grid gap-3 sm:mt-6 sm:grid-cols-2 sm:gap-4 lg:gap-5">
+              {providerFaqPage.map((item) => (
+                <div
+                  key={item.question}
+                  className="rounded-2xl border border-cp-border bg-white p-4 sm:p-5"
+                >
+                  <dt>
+                    <h3 className="page-card-title">{item.question}</h3>
+                  </dt>
+                  <dd className="page-body mt-2">{item.answer}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
 
           <section className="mt-8 rounded-2xl border border-cp-border bg-white p-5 sm:mt-10 sm:p-6 lg:mt-12 lg:flex lg:items-center lg:justify-between lg:gap-10 lg:p-8">
             <div className="max-w-xl">
