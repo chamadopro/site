@@ -2,12 +2,16 @@ import { ContentSection, PageHero } from '@/components/layout/PageShell';
 import { siteContact } from '@/config/appLinks';
 import { buildPageMetadata } from '@/lib/metadataHelpers';
 
-export const metadata = buildPageMetadata({
-  title: 'Parcerias Comerciais e Ecossistema — ChamadoPro',
-  description:
-    'Oportunidades de parcerias com o ChamadoPro para empresas, prestadores e canais de distribuição de serviços.',
-  path: '/parceiros',
-});
+export const metadata = {
+  ...buildPageMetadata({
+    title: 'Parcerias Comerciais e Ecossistema',
+    description:
+      'Oportunidades de parcerias com o ChamadoPro para empresas, prestadores e canais de distribuição de serviços.',
+    path: '/parceiros',
+  }),
+  // Placeholder "em breve": não pedir indexação até existir conteúdo real.
+  robots: { index: false, follow: true },
+};
 
 export default function ParceirosPage() {
   return (

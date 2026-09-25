@@ -3,7 +3,7 @@ import { siteContact } from '@/config/appLinks';
 import { buildPageMetadata } from '@/lib/metadataHelpers';
 
 export const metadata = buildPageMetadata({
-  title: 'Contato e Atendimento Oficial — ChamadoPro',
+  title: 'Contato e Atendimento Oficial',
   description:
     'Entre em contato com a equipe do ChamadoPro para suporte, dúvidas sobre a plataforma, sugestões ou parcerias comerciais.',
   path: '/contato',

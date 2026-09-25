@@ -11,7 +11,6 @@ const staticPages = [
   { path: '/sobre', changeFrequency: 'monthly' as const, priority: 0.6 },
   { path: '/contato', changeFrequency: 'monthly' as const, priority: 0.6 },
   { path: '/faq', changeFrequency: 'monthly' as const, priority: 0.7 },
-  { path: '/parceiros', changeFrequency: 'monthly' as const, priority: 0.5 },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

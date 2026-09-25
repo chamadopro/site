@@ -77,7 +77,7 @@ export const metadataCopy = {
       'Cadastre-se grátis no ChamadoPro e receba pedidos de orçamentos de serviços direto no seu celular. Plataforma para eletricista, pintor, encanador, diarista e mais.',
   },
   comoFunciona: {
-    title: 'Como Funciona o ChamadoPro — Do Pedido ao Pagamento Protegido',
+    title: 'Como Funciona — Do Pedido ao Pagamento Protegido',
     description:
       'Entenda o passo a passo para solicitar orçamentos, comparar profissionais, aprovar serviços e transacionar com proteção total no ChamadoPro.',
   },
